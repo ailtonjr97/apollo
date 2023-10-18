@@ -75,7 +75,7 @@ form{
 </div>
 <form action="/lgpd/ler-pdf" method="post" style="resize:both;">
 <div class="row mt-2">
-  <div class="col" ondrop="dropHandler(event)">
+  <div class="col" ondrop="dropHandler(event)" id="drop-container">
       <label for="images" class="drop-container mt-2" id="upload">
           <span class="drop-title">Arraste o(s) arquivo(s) aqui</span>
           ou
@@ -138,34 +138,34 @@ for(let i = 0; i < document.getElementsByClassName('setas').length; i++){
   ev.preventDefault();
   console.log('asdsadasdsad')
 
-  // if (ev.dataTransfer.items) {
-  //   [...ev.dataTransfer.items].forEach((item, i) => {
-  //     if (item.kind === "file") {
-  //       const file = item.getAsFile();
-  //       let carItem = document.createElement('div');
-  //       if(i == 0){
-  //         carItem.classList.add('carousel-item');
-  //         carItem.classList.add('active');
-  //       } else{
-  //         carItem.classList.add('carousel-item');
-  //       }
-  //       let quadroPdf = document.createElement('embed');
-  //       quadroPdf.classList.add(`campoPdf${i}`);
-  //       quadroPdf.style.width = '100%';
-  //       quadroPdf.style.height = '100%';
-  //       quadroPdf.src = (URL.createObjectURL(file) + '#toolbar=0&navpanes=0&scrollbar=0');
+  if (ev.dataTransfer.items) {
+    [...ev.dataTransfer.items].forEach((item, i) => {
+      if (item.kind === "file") {
+        const file = item.getAsFile();
+        let carItem = document.createElement('div');
+        if(i == 0){
+          carItem.classList.add('carousel-item');
+          carItem.classList.add('active');
+        } else{
+          carItem.classList.add('carousel-item');
+        }
+        let quadroPdf = document.createElement('embed');
+        quadroPdf.classList.add(`campoPdf${i}`);
+        quadroPdf.style.width = '100%';
+        quadroPdf.style.height = '100%';
+        quadroPdf.src = (URL.createObjectURL(file) + '#toolbar=0&navpanes=0&scrollbar=0');
 
-  //       document.getElementsByClassName('row')[1].style.display = 'none'
-  //       document.getElementsByClassName('col')[2].appendChild(carItem)
-  //       document.getElementsByClassName('col')[3].innerHTML = 'ghjdsfbvc'
-  //       document.getElementsByClassName('carousel-item')[i].appendChild(quadroPdf)
-  //     }
-  //   });
-  // }
+        document.getElementsByClassName('row')[1].style.display = 'none'
+        document.getElementsByClassName('col')[2].appendChild(carItem)
+        document.getElementsByClassName('col')[3].innerHTML = 'ghjdsfbvc'
+        document.getElementsByClassName('carousel-item')[i].appendChild(quadroPdf)
+      }
+    });
+  }
 
-// for(let i = 0; i < document.getElementsByClassName('setas').length; i++){
-//   document.getElementsByClassName('setas')[i].style.display = 'inline-block'
-// }
+for(let i = 0; i < document.getElementsByClassName('setas').length; i++){
+  document.getElementsByClassName('setas')[i].style.display = 'inline-block'
+}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
