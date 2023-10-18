@@ -21,6 +21,7 @@ const novoDocumento = async (req, res)=>{
 
 const lerPdf = async (req, res)=>{
     try {
+        console.log(req.body)
         if(!req.files && !req.files.pdfFile){
             res.status(400);
             res.end();

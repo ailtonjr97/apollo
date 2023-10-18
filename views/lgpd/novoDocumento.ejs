@@ -68,7 +68,7 @@ input[type=file]::file-selector-button:hover {
 <div class="row mt-2">
     <h1>Novo Documento</h1>
 </div>
-<form action="">
+<form action="/lgpd/ler-pdf" method="post">
 <div class="row">
     <div class="col-lg-6">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -102,7 +102,7 @@ input[type=file]::file-selector-button:hover {
         <div class="row mt-2">
             <div class="col">
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="nome" placeholder="Nome:">
+                    <input type="text" class="form-control" id="nome" placeholder="Nome:" name="nome">
                     <label for="nome">Nome:</label>
                 </div>
             </div>
@@ -110,7 +110,7 @@ input[type=file]::file-selector-button:hover {
         <div class="row mt-2">
             <div class="col">
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="subtitulo" placeholder="Subtítulo:">
+                    <input type="text" class="form-control" id="subtitulo" placeholder="Subtítulo:" name="subtitulo">
                     <label for="subtitulo">Subtítulo:</label>
                 </div>
             </div>
@@ -118,7 +118,7 @@ input[type=file]::file-selector-button:hover {
         <div class="row mt-2">
             <div class="col">
                 <div class="form-floating">
-                    <select class="form-select" id="tipo">
+                    <select class="form-select" id="tipo" name="tipo">
                       <option selected>Open this select menu</option>
                       <option value="1">One</option>
                       <option value="2">Two</option>
@@ -131,7 +131,7 @@ input[type=file]::file-selector-button:hover {
         <div class="row mt-2">
             <div class="col">
                 <div class="form-floating">
-                    <textarea class="form-control" placeholder="Observação:" id="obs"></textarea>
+                    <textarea class="form-control" placeholder="Observação:" id="obs" name="obs"></textarea>
                     <label for="obs">Observação:</label>
                 </div>
             </div>
@@ -141,12 +141,13 @@ input[type=file]::file-selector-button:hover {
                 <label for="images" class="drop-container mt-2" id="dropcontainer" ondrop="dropHandler(event)">
                     <span class="drop-title">Arraste o arquivo aqui (Somente um arquivo por vez)</span>
                     ou
-                    <input type="file" id="images" accept="application/pdf" required>
+                    <input type="file" id="images" accept="application/pdf" name="pdfs" required>
                 </label>
             </div>
         </div>
     </div>
 </div>
+<button type="submit">Enviar</button>
 </form>
 
 <script>
@@ -162,60 +163,58 @@ function dropHandler(ev) {
     [...ev.dataTransfer.items].forEach((item, i) => {
       if (item.kind === "file") {
         const file = item.getAsFile();
-        console.log(`… file[${i}].name = ${file.name}`);
-        document.getElementsByClassName('campoPdf')[i].src = URL.createObjectURL(file)
+        document.getElementsByClassName('campoPdf')[i].src = (URL.createObjectURL(file) + '#toolbar=0&navpanes=0&scrollbar=0')
       }
     });
   } else {
     [...ev.dataTransfer.files].forEach((file, i) => {
-      console.log(`… file[${i}].name = ${file.name}`);
     });
   }
 }
 
-// images.onchange = evt => {
-//   const [file] = images.files
-//   if (file) {
-//     console.log(file);
-//     imagem.src = URL.createObjectURL(file)
-//   }
+images.onchange = evt => {
+  const [file] = images.files
+  if (file) {
+    console.log(file);
+    imagem.src = URL.createObjectURL(file)
+  }
 
-//   const formData = new FormData();
-//     formData.append('pdfFile', pdfFile.files[0])
+  const formData = new FormData();
+    formData.append('pdfFile', pdfFile.files[0])
 
-//     const formatada = `${pdfFile.files[0].name}`.replace('.PDF', '')
+    const formatada = `${pdfFile.files[0].name}`.replace('.PDF', '')
 
-//     resultText.value = formatada
+    resultText.value = formatada
 
-//     // fetch('/lgpd/ler-pdf', {
-//     //     method: "post",
-//     //     body: formData
-//     // }).then(response => {
-//     //     return response.text()
-//     // }).then(extractedText =>{
-//     //     resultText.value = extractedText
-//     // })
-// }
+    // fetch('/lgpd/ler-pdf', {
+    //     method: "post",
+    //     body: formData
+    // }).then(response => {
+    //     return response.text()
+    // }).then(extractedText =>{
+    //     resultText.value = extractedText
+    // })
+}
 
-//   const dropContainer = document.getElementById("dropcontainer")
-//   const fileInput = document.getElementById("images")
+  const dropContainer = document.getElementById("dropcontainer")
+  const fileInput = document.getElementById("images")
 
-//   dropContainer.addEventListener("dragover", (e) => {
-//     // prevent default to allow drop
-//     e.preventDefault()
-//   }, false)
+  dropContainer.addEventListener("dragover", (e) => {
+    // prevent default to allow drop
+    e.preventDefault()
+  }, false)
 
-//   dropContainer.addEventListener("dragenter", () => {
-//     dropContainer.classList.add("drag-active")
-//   })
+  dropContainer.addEventListener("dragenter", () => {
+    dropContainer.classList.add("drag-active")
+  })
 
-//   dropContainer.addEventListener("dragleave", () => {
-//     dropContainer.classList.remove("drag-active")
-//   })
+  dropContainer.addEventListener("dragleave", () => {
+    dropContainer.classList.remove("drag-active")
+  })
 
-//   dropContainer.addEventListener("drop", (e) => {
-//     e.preventDefault()
-//     dropContainer.classList.remove("drag-active")
-//     fileInput.files = e.dataTransfer.files
-//   })
+  dropContainer.addEventListener("drop", (e) => {
+    e.preventDefault()
+    dropContainer.classList.remove("drag-active")
+    fileInput.files = e.dataTransfer.files
+  })
 </script>
