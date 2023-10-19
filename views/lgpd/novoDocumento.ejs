@@ -75,8 +75,8 @@ form{
 </div>
 <form action="/lgpd/ler-pdf" method="post" style="resize:both;">
 <div class="row mt-2">
-  <div class="col" ondrop="dropHandler(event)" id="drop-container">
-      <label for="images" class="drop-container mt-2" id="upload">
+  <div class="col">
+      <label for="images" id="drop-container" class="drop-container mt-2">
           <span class="drop-title">Arraste o(s) arquivo(s) aqui</span>
           ou
           <input type="file" id="images" accept="application/pdf" name="pdfs" multiple required>
@@ -98,79 +98,171 @@ form{
 </form>
 
 <script>
-const pdfFile = document.getElementById('images')
-const btnUpload = document.getElementById('btnUpload')
-const resultText = document.getElementById('nome')
-
-let upload = document.getElementById('upload');
-
-
-function dropHandler(ev) {
-
-  console.log('asdsadsadsad')
-
-  const dropContainer = document.getElementById("dropcontainer")
-const fileInput = document.getElementById("images")
-
-dropContainer.addEventListener("dragover", (e) => {
-  // prevent default to allow drop
-  e.preventDefault()
-}, false)
-
-dropContainer.addEventListener("dragenter", () => {
-  dropContainer.classList.add("drag-active")
+//////////////////////////////////////////////////////////////
+document.getElementById('drop-container').addEventListener('dragover', e =>{
+  e.preventDefault();
 })
 
-dropContainer.addEventListener("dragleave", () => {
-  dropContainer.classList.remove("drag-active")
+document.getElementById('drop-container').addEventListener('dragenter', e =>{
+  e.preventDefault();
 })
 
-dropContainer.addEventListener("drop", (e) => {
-  e.preventDefault()
-  dropContainer.classList.remove("drag-active")
-  fileInput.files = e.dataTransfer.files
-})
+//Lógica para adicionar documento arrastando na área
 
-for(let i = 0; i < document.getElementsByClassName('setas').length; i++){
-  document.getElementsByClassName('setas')[i].style.display = 'flex'
-}
-  
-  ev.preventDefault();
-  console.log('asdsadasdsad')
+document.getElementById('drop-container').addEventListener('drop', e =>{
+  e.preventDefault();
+  if (e.dataTransfer.files) {
+    [...e.dataTransfer.files].forEach((item, i) => {
+      //////////////////////////////////////////////////////
+      //Criação da row
+      const row = document.createElement('div')
+      row.classList.add('row', 'rowCarousel')
+      row.setAttribute('style', 'height: 100%;')
+      ///////////////////////////////////////////////////////
+      //Criação da col pdfs
+      const colPdfs = document.createElement('div')
+      colPdfs.classList.add('col', `colPdf`)
+      ////////////////////////////////////////////////////////
+      //Criação da col inputs
+      const colInputs = document.createElement('div')
+      colInputs.classList.add('col', `colInput`)
+      colInputs.style.padding = '17px';
+      ///////////////////////////////////////////////////////
+      //Criação do botão nome
+      let divNome = document.createElement('div');
+      divNome.classList.add('form-floating', 'mb-3');
 
-  if (ev.dataTransfer.items) {
-    [...ev.dataTransfer.items].forEach((item, i) => {
-      if (item.kind === "file") {
-        const file = item.getAsFile();
-        let carItem = document.createElement('div');
-        if(i == 0){
-          carItem.classList.add('carousel-item');
-          carItem.classList.add('active');
-        } else{
-          carItem.classList.add('carousel-item');
-        }
-        let quadroPdf = document.createElement('embed');
-        quadroPdf.classList.add(`campoPdf${i}`);
-        quadroPdf.style.width = '100%';
-        quadroPdf.style.height = '100%';
-        quadroPdf.src = (URL.createObjectURL(file) + '#toolbar=0&navpanes=0&scrollbar=0');
+      let inputNome = document.createElement('input');
+      inputNome.classList.add('form-control', 'nome');
+      inputNome.setAttribute("id", "name");
+      inputNome.setAttribute("type", "text");
+      inputNome.setAttribute("placeholder", "Nome:");
 
-        document.getElementsByClassName('row')[1].style.display = 'none'
-        document.getElementsByClassName('col')[2].appendChild(carItem)
-        document.getElementsByClassName('col')[3].innerHTML = 'ghjdsfbvc'
-        document.getElementsByClassName('carousel-item')[i].appendChild(quadroPdf)
+      let labelNome = document.createElement('label');
+      labelNome.setAttribute('for', 'name')
+      labelNome.innerText = 'Nome:'
+
+      divNome.appendChild(inputNome)
+      divNome.appendChild(labelNome)
+      //////////////////////////////////////////////////////
+      //Criação do botão subtitulo
+      let divSub = document.createElement('div');
+      divSub.classList.add('form-floating', 'mb-3');
+
+      let inputSub = document.createElement('input');
+      inputSub.classList.add('form-control');
+      inputSub.setAttribute("id", "subtitulo");
+      inputSub.setAttribute("type", "text");
+      inputSub.setAttribute("placeholder", "Subtítulo:");
+
+      let labelSub = document.createElement('label');
+      labelSub.setAttribute('for', 'subtitulo')
+      labelSub.innerText = 'Subtítulo:'
+
+      divSub.appendChild(inputSub)
+      divSub.appendChild(labelSub)
+      //////////////////////////////////////////////////////
+      //Criação do botão tipo
+      let divTipo = document.createElement('div');
+      divTipo.classList.add('form-floating', 'mb-3');
+
+      let inputTipo = document.createElement('select');
+      inputTipo.classList.add('form-select');
+      inputTipo.setAttribute("id", "tipo");
+
+      let opt1 = document.createElement('option');
+      opt1.setAttribute('value', '1');
+      opt1.setAttribute('selected', '');
+      opt1.innerText = '1'
+
+      let opt2 = document.createElement('option');
+      opt2.setAttribute('value', '2');
+      opt2.innerText = '2'
+
+      let opt3 = document.createElement('option');
+      opt3.setAttribute('value', '3');
+      opt3.innerText = '3'
+
+      inputTipo.appendChild(opt1);
+      inputTipo.appendChild(opt2);
+      inputTipo.appendChild(opt3);
+
+      let labelTipo = document.createElement('label');
+      labelTipo.setAttribute('for', 'tipo')
+      labelTipo.innerText = 'Tipo:'
+
+      divTipo.appendChild(inputTipo)
+      divTipo.appendChild(labelTipo)
+      //////////////////////////////////////////////////////
+      //Criação do botão obs
+      let divObs = document.createElement('div');
+      divObs.classList.add('form-floating', 'mb-3');
+
+      let textareaObs = document.createElement('textarea');
+      textareaObs.classList.add('form-control');
+      textareaObs.setAttribute("id", "obs");
+      textareaObs.setAttribute("placeholder", "Observações:");
+
+      let labelObs = document.createElement('label');
+      labelObs.setAttribute('for', 'obs')
+      labelObs.innerText = 'Observações:'
+
+      divObs.appendChild(textareaObs)
+      divObs.appendChild(labelObs)
+      //////////////////////////////////////////////////////
+
+      let carItem = document.createElement('div');
+      if(i == 0){
+        carItem.classList.add('carousel-item');
+        carItem.classList.add('active');
+      } else{
+        carItem.classList.add('carousel-item');
       }
-    });
-  }
+      let quadroPdf = document.createElement('embed');
+      quadroPdf.classList.add(`campoPdf${i}`);
+      quadroPdf.style.width = '100%';
+      quadroPdf.style.height = '100%';
+      quadroPdf.src = (URL.createObjectURL(item) + '#toolbar=0&navpanes=0&scrollbar=0');
 
-for(let i = 0; i < document.getElementsByClassName('setas').length; i++){
-  document.getElementsByClassName('setas')[i].style.display = 'inline-block'
+      document.getElementsByClassName('row')[1].style.display = 'none';
+
+      document.getElementsByClassName('carousel-inner')[0].appendChild(carItem);
+      document.getElementsByClassName('carousel-item')[i].appendChild(row);
+      document.getElementsByClassName('rowCarousel')[i].appendChild(colPdfs);
+      document.getElementsByClassName('rowCarousel')[i].appendChild(colInputs);
+      document.getElementsByClassName(`colPdf`)[i].appendChild(quadroPdf);
+      document.getElementsByClassName(`colInput`)[i].appendChild(divNome);
+      document.getElementsByClassName(`colInput`)[i].appendChild(divSub);
+      document.getElementsByClassName(`colInput`)[i].appendChild(divTipo);
+      document.getElementsByClassName(`colInput`)[i].appendChild(divObs);
+      document.getElementsByClassName('colInput')[i].style.color = 'black';
+      document.getElementsByClassName('nome')[i].value = item.name;
+    });
+
+    for(let i = 0; i < document.getElementsByClassName('setas').length; i++){
+      document.getElementsByClassName('setas')[i].style.display = 'flex'
+    }
+  // const formData = new FormData();
+  //   formData.append('pdfFile', pdfFile.files[0])
+
+  //   const formatada = `${pdfFile.files[0].name}`.replace('.PDF', '')
+
+  //   resultText.value = formatada
+
+  //   // fetch('/lgpd/ler-pdf', {
+  //   //     method: "post",
+  //   //     body: formData
+  //   // }).then(response => {
+  //   //     return response.text()
+  //   // }).then(extractedText =>{
+  //   //     resultText.value = extractedText
+  //   // })
 }
-}
+})
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+//Lógica para adicionar documento clicando no botão
 
 images.onchange = ev => {
 
@@ -317,28 +409,6 @@ images.onchange = ev => {
   //   //     resultText.value = extractedText
   //   // })
 }
-
-const dropContainer = document.getElementById("dropcontainer")
-const fileInput = document.getElementById("images")
-
-dropContainer.addEventListener("dragover", (e) => {
-  // prevent default to allow drop
-  e.preventDefault()
-}, false)
-
-dropContainer.addEventListener("dragenter", () => {
-  dropContainer.classList.add("drag-active")
-})
-
-dropContainer.addEventListener("dragleave", () => {
-  dropContainer.classList.remove("drag-active")
-})
-
-dropContainer.addEventListener("drop", (e) => {
-  e.preventDefault()
-  dropContainer.classList.remove("drag-active")
-  fileInput.files = e.dataTransfer.files
-})
 
 for(let i = 0; i < document.getElementsByClassName('setas').length; i++){
   document.getElementsByClassName('setas')[i].style.display = 'flex'
