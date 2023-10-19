@@ -42,7 +42,7 @@
 input[type=file] {
   width: 350px;
   max-width: 100%;
-  color: #444;
+  color: #000000;
   padding: 5px;
   background: #fff;
   border-radius: 10px;
@@ -50,9 +50,10 @@ input[type=file] {
 }
 
 input[type=file]::file-selector-button {
-  margin-right: 20px;
+  margin-top: 6%;
+  margin-left: 40%;
   border: none;
-  background: #084cdf;
+  background: #396ddd;
   padding: 10px 20px;
   border-radius: 10px;
   color: #fff;
@@ -72,7 +73,7 @@ form{
 <div class="row mt-2">
     <h1>Novo Documento</h1>
 </div>
-<form action="/lgpd/ler-pdf" method="post" style="resize:both;">
+<form action="/lgpd/ler-pdf" method="post" style="resize:both;" enctype="multipart/form-data">
 <div class="row">
   <div class="col d-flex justify-content-start">
     <button type="submit" class="button-8 mb-2" id="result" style="display: none; width: 10%;">Enviar</button>
@@ -82,11 +83,12 @@ form{
 
 <div class="row mt-2">
   <div class="col">
-      <label for="images" id="drop-container" class="drop-container mt-2">
-          <span class="drop-title">Arraste o(s) arquivo(s) aqui</span>
-          ou
-          <input type="file" id="images" accept="application/pdf" name="pdfs" multiple required>
-      </label>
+      <!-- <label for="images" id="drop-container" class="drop-container mt-2"> -->
+          <!-- <span class="drop-title">Arraste o(s) arquivo(s) aqui</span>
+          ou -->
+          <label for="images" class="btn">Clique no botão "escolher arquivo" ou arraste dentro da área:</label>
+          <input style="width: 100%; height: 250px;" type="file" id="images" name="arquivos" multiple>
+      <!-- </label> -->
   </div>
 </div>
 <div id="carouselExampleControls" class="carousel slide" data-bs-interval="false" style="height: 650px;">
@@ -109,169 +111,156 @@ let recarrega = ()=>{
   location.reload();
 }
 
-document.getElementById('drop-container').addEventListener('dragover', e =>{
-  e.preventDefault();
-})
+// document.getElementById('drop-container').addEventListener('dragover', e =>{
+//   e.preventDefault();
+// })
 
-document.getElementById('drop-container').addEventListener('dragenter', e =>{
-  e.preventDefault();
-})
+// document.getElementById('drop-container').addEventListener('dragenter', e =>{
+//   e.preventDefault();
+// })
 
-//Lógica para adicionar documento arrastando na área
+// //Lógica para adicionar documento arrastando na área
 
-document.getElementById('drop-container').addEventListener('drop', e =>{
-  e.preventDefault();
-  if (e.dataTransfer.files) {
-    [...e.dataTransfer.files].forEach((item, i) => {
-      //////////////////////////////////////////////////////
-      //Criação da row
-      const row = document.createElement('div')
-      row.classList.add('row', 'rowCarousel')
-      row.setAttribute('style', 'height: 100%;')
-      ///////////////////////////////////////////////////////
-      //Criação da col pdfs
-      const colPdfs = document.createElement('div')
-      colPdfs.classList.add('col', `colPdf`)
-      ////////////////////////////////////////////////////////
-      //Criação da col inputs
-      const colInputs = document.createElement('div')
-      colInputs.classList.add('col', `colInput`)
-      colInputs.style.padding = '17px';
-      ///////////////////////////////////////////////////////
-      //Criação do botão nome
-      let divNome = document.createElement('div');
-      divNome.classList.add('form-floating', 'mb-3');
+// document.getElementById('drop-container').addEventListener('drop', e =>{
+//   e.preventDefault();
+//   if (e.dataTransfer.files) {
+//     [...e.dataTransfer.files].forEach((item, i) => {
+//       //////////////////////////////////////////////////////
+//       //Criação da row
+//       const row = document.createElement('div')
+//       row.classList.add('row', 'rowCarousel')
+//       row.setAttribute('style', 'height: 100%;')
+//       ///////////////////////////////////////////////////////
+//       //Criação da col pdfs
+//       const colPdfs = document.createElement('div')
+//       colPdfs.classList.add('col', `colPdf`)
+//       ////////////////////////////////////////////////////////
+//       //Criação da col inputs
+//       const colInputs = document.createElement('div')
+//       colInputs.classList.add('col', `colInput`)
+//       colInputs.style.padding = '17px';
+//       ///////////////////////////////////////////////////////
+//       //Criação do botão nome
+//       let divNome = document.createElement('div');
+//       divNome.classList.add('form-floating', 'mb-3');
 
-      let inputNome = document.createElement('input');
-      inputNome.classList.add('form-control', 'nome');
-      inputNome.setAttribute("id", "name");
-      inputNome.setAttribute("type", "text");
-      inputNome.setAttribute("placeholder", "Nome:");
+//       let inputNome = document.createElement('input');
+//       inputNome.classList.add('form-control', 'nome');
+//       inputNome.setAttribute("id", "name");
+//       inputNome.setAttribute("type", "text");
+//       inputNome.setAttribute("placeholder", "Nome:");
 
-      let labelNome = document.createElement('label');
-      labelNome.setAttribute('for', 'name')
-      labelNome.innerText = 'Nome:'
+//       let labelNome = document.createElement('label');
+//       labelNome.setAttribute('for', 'name')
+//       labelNome.innerText = 'Nome:'
 
-      divNome.appendChild(inputNome)
-      divNome.appendChild(labelNome)
-      //////////////////////////////////////////////////////
-      //Criação do botão subtitulo
-      let divSub = document.createElement('div');
-      divSub.classList.add('form-floating', 'mb-3');
+//       divNome.appendChild(inputNome)
+//       divNome.appendChild(labelNome)
+//       //////////////////////////////////////////////////////
+//       //Criação do botão subtitulo
+//       let divSub = document.createElement('div');
+//       divSub.classList.add('form-floating', 'mb-3');
 
-      let inputSub = document.createElement('input');
-      inputSub.classList.add('form-control');
-      inputSub.setAttribute("id", "subtitulo");
-      inputSub.setAttribute("type", "text");
-      inputSub.setAttribute("placeholder", "Subtítulo:");
+//       let inputSub = document.createElement('input');
+//       inputSub.classList.add('form-control');
+//       inputSub.setAttribute("id", "subtitulo");
+//       inputSub.setAttribute("type", "text");
+//       inputSub.setAttribute("placeholder", "Subtítulo:");
 
-      let labelSub = document.createElement('label');
-      labelSub.setAttribute('for', 'subtitulo')
-      labelSub.innerText = 'Subtítulo:'
+//       let labelSub = document.createElement('label');
+//       labelSub.setAttribute('for', 'subtitulo')
+//       labelSub.innerText = 'Subtítulo:'
 
-      divSub.appendChild(inputSub)
-      divSub.appendChild(labelSub)
-      //////////////////////////////////////////////////////
-      //Criação do botão tipo
-      let divTipo = document.createElement('div');
-      divTipo.classList.add('form-floating', 'mb-3');
+//       divSub.appendChild(inputSub)
+//       divSub.appendChild(labelSub)
+//       //////////////////////////////////////////////////////
+//       //Criação do botão tipo
+//       let divTipo = document.createElement('div');
+//       divTipo.classList.add('form-floating', 'mb-3');
 
-      let inputTipo = document.createElement('select');
-      inputTipo.classList.add('form-select');
-      inputTipo.setAttribute("id", "tipo");
+//       let inputTipo = document.createElement('select');
+//       inputTipo.classList.add('form-select');
+//       inputTipo.setAttribute("id", "tipo");
 
-      let opt1 = document.createElement('option');
-      opt1.setAttribute('value', '1');
-      opt1.setAttribute('selected', '');
-      opt1.innerText = '1'
+//       let opt1 = document.createElement('option');
+//       opt1.setAttribute('value', '1');
+//       opt1.setAttribute('selected', '');
+//       opt1.innerText = '1'
 
-      let opt2 = document.createElement('option');
-      opt2.setAttribute('value', '2');
-      opt2.innerText = '2'
+//       let opt2 = document.createElement('option');
+//       opt2.setAttribute('value', '2');
+//       opt2.innerText = '2'
 
-      let opt3 = document.createElement('option');
-      opt3.setAttribute('value', '3');
-      opt3.innerText = '3'
+//       let opt3 = document.createElement('option');
+//       opt3.setAttribute('value', '3');
+//       opt3.innerText = '3'
 
-      inputTipo.appendChild(opt1);
-      inputTipo.appendChild(opt2);
-      inputTipo.appendChild(opt3);
+//       inputTipo.appendChild(opt1);
+//       inputTipo.appendChild(opt2);
+//       inputTipo.appendChild(opt3);
 
-      let labelTipo = document.createElement('label');
-      labelTipo.setAttribute('for', 'tipo')
-      labelTipo.innerText = 'Tipo:'
+//       let labelTipo = document.createElement('label');
+//       labelTipo.setAttribute('for', 'tipo')
+//       labelTipo.innerText = 'Tipo:'
 
-      divTipo.appendChild(inputTipo)
-      divTipo.appendChild(labelTipo)
-      //////////////////////////////////////////////////////
-      //Criação do botão obs
-      let divObs = document.createElement('div');
-      divObs.classList.add('form-floating', 'mb-3');
+//       divTipo.appendChild(inputTipo)
+//       divTipo.appendChild(labelTipo)
+//       //////////////////////////////////////////////////////
+//       //Criação do botão obs
+//       let divObs = document.createElement('div');
+//       divObs.classList.add('form-floating', 'mb-3');
 
-      let textareaObs = document.createElement('textarea');
-      textareaObs.classList.add('form-control');
-      textareaObs.setAttribute("id", "obs");
-      textareaObs.setAttribute("placeholder", "Observações:");
+//       let textareaObs = document.createElement('textarea');
+//       textareaObs.classList.add('form-control');
+//       textareaObs.setAttribute("id", "obs");
+//       textareaObs.setAttribute("placeholder", "Observações:");
 
-      let labelObs = document.createElement('label');
-      labelObs.setAttribute('for', 'obs')
-      labelObs.innerText = 'Observações:'
+//       let labelObs = document.createElement('label');
+//       labelObs.setAttribute('for', 'obs')
+//       labelObs.innerText = 'Observações:'
 
-      divObs.appendChild(textareaObs)
-      divObs.appendChild(labelObs)
-      //////////////////////////////////////////////////////
+//       divObs.appendChild(textareaObs)
+//       divObs.appendChild(labelObs)
+//       //////////////////////////////////////////////////////
 
-      let carItem = document.createElement('div');
-      if(i == 0){
-        carItem.classList.add('carousel-item');
-        carItem.classList.add('active');
-      } else{
-        carItem.classList.add('carousel-item');
-      }
-      let quadroPdf = document.createElement('embed');
-      quadroPdf.classList.add(`campoPdf${i}`);
-      quadroPdf.style.width = '100%';
-      quadroPdf.style.height = '100%';
-      quadroPdf.src = (URL.createObjectURL(item) + '#toolbar=0&navpanes=0&scrollbar=0');
+//       let carItem = document.createElement('div');
+//       if(i == 0){
+//         carItem.classList.add('carousel-item');
+//         carItem.classList.add('active');
+//       } else{
+//         carItem.classList.add('carousel-item');
+//       }
+//       let quadroPdf = document.createElement('embed');
+//       quadroPdf.classList.add(`campoPdf${i}`);
+//       quadroPdf.style.width = '100%';
+//       quadroPdf.style.height = '100%';
+//       quadroPdf.src = (URL.createObjectURL(item) + '#toolbar=0&navpanes=0&scrollbar=0');
 
-      document.getElementsByClassName('row')[2].style.display = 'none';
+//       document.getElementsByClassName('row')[2].style.display = 'none';
 
-      document.getElementsByClassName('carousel-inner')[0].appendChild(carItem);
-      document.getElementsByClassName('carousel-item')[i].appendChild(row);
-      document.getElementsByClassName('rowCarousel')[i].appendChild(colPdfs);
-      document.getElementsByClassName('rowCarousel')[i].appendChild(colInputs);
-      document.getElementsByClassName(`colPdf`)[i].appendChild(quadroPdf);
-      document.getElementsByClassName(`colInput`)[i].appendChild(divNome);
-      document.getElementsByClassName(`colInput`)[i].appendChild(divSub);
-      document.getElementsByClassName(`colInput`)[i].appendChild(divTipo);
-      document.getElementsByClassName(`colInput`)[i].appendChild(divObs);
-      document.getElementsByClassName('colInput')[i].style.color = 'black';
-      document.getElementsByClassName('nome')[i].value = item.name;
-    });
+//       document.getElementsByClassName('carousel-inner')[0].appendChild(carItem);
+//       document.getElementsByClassName('carousel-item')[i].appendChild(row);
+//       document.getElementsByClassName('rowCarousel')[i].appendChild(colPdfs);
+//       document.getElementsByClassName('rowCarousel')[i].appendChild(colInputs);
+//       document.getElementsByClassName(`colPdf`)[i].appendChild(quadroPdf);
+//       document.getElementsByClassName(`colInput`)[i].appendChild(divNome);
+//       document.getElementsByClassName(`colInput`)[i].appendChild(divSub);
+//       document.getElementsByClassName(`colInput`)[i].appendChild(divTipo);
+//       document.getElementsByClassName(`colInput`)[i].appendChild(divObs);
+//       document.getElementsByClassName('colInput')[i].style.color = 'black';
+//       document.getElementsByClassName('nome')[i].value = item.name;
+//     });
 
-    for(let i = 0; i < document.getElementsByClassName('setas').length; i++){
-      document.getElementsByClassName('setas')[i].style.display = 'flex'
-    }
-  // const formData = new FormData();
-  //   formData.append('pdfFile', pdfFile.files[0])
+//     for(let i = 0; i < document.getElementsByClassName('setas').length; i++){
+//       document.getElementsByClassName('setas')[i].style.display = 'flex'
+//     }
 
-  //   const formatada = `${pdfFile.files[0].name}`.replace('.PDF', '')
 
-  //   resultText.value = formatada
+// }
 
-  //   // fetch('/lgpd/ler-pdf', {
-  //   //     method: "post",
-  //   //     body: formData
-  //   // }).then(response => {
-  //   //     return response.text()
-  //   // }).then(extractedText =>{
-  //   //     resultText.value = extractedText
-  //   // })
-}
-
-document.getElementsByClassName('button-8')[0].style.display = 'block'
-document.getElementsByClassName('button-8')[1].style.display = 'block'
-})
+// document.getElementsByClassName('button-8')[0].style.display = 'block'
+// document.getElementsByClassName('button-8')[1].style.display = 'block'
+// })
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -281,6 +270,7 @@ images.onchange = ev => {
 
     if (images.files) {
     [...images.files].forEach((item, i) => {
+      console.log(item)
       //////////////////////////////////////////////////////
       //Criação da row
       const row = document.createElement('div')

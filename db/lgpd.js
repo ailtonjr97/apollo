@@ -1,14 +1,11 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-async function connect(){
-    if(global.connection && global.connection.state !== 'disconnected')
-        return global.connection;
-
+async function connectFiles(){
     const mysql = require("mysql2/promise");
-    const pool = mysql.createPool({
+    const poolFiles = mysql.createPool({
         host: process.env.SQLHOST,
-        port: '3306',
+        port: process.env.SQLUSER,
         user: process.env.SQLUSERFILES,
         password: process.env.SQLPASSWORDFILES,
         database: process.env.SQLDATABASEFILES,
@@ -20,18 +17,30 @@ async function connect(){
         enableKeepAlive: true,
         keepAliveInitialDelay: 10000
       });
-    global.connection = pool;
-    return pool;
+    return poolFiles;
 }
 
-connect();
+connectFiles();
 
-let insertFiles = async(file)=>{
-    const conn = await connect();
-    const [values] = file;
-    await conn.query('INSERT INTO docspro_files.files (file) VALUES (?)', values);
+let showFiles = async(file)=>{
+    const conn = await connectFiles();
+    const [values] = await conn.query('select id, name, tipo, size from docspro_files.files');
+    return values
+}
+
+let insertFiles = async(file, name, tipo, size)=>{
+    const conn = await connectFiles();
+    await conn.query('INSERT INTO docspro_files.files (file, name, tipo, size) VALUES (?, ?, ?, ?)', [file, name, tipo, size]);
+}
+
+let selectFile = async(id)=>{
+    const conn = await connectFiles();
+    const [values] = await conn.query('select file, tipo from files where id = ?', id);
+    return values
 }
 
 module.exports = {
-    insertFiles
+    showFiles,
+    insertFiles,
+    selectFile
 }

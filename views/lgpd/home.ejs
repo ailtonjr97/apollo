@@ -63,14 +63,35 @@
       <table class="fl-table" id="myTable">
         <thead>
           <tr style="height: 25px">
-            <th>Filial</th>
-            <th>Código</th>
+            <th>ID</th>
+            <th>Nome</th>
             <th>Tipo</th>
-            <th>Condição</th>
-            <th>Descrição</th>
+            <th>Tamanho</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
+          <%files.forEach ((file)=>{%>
+          <tr>
+            <td>
+                <p><%=file.id%></p>
+            </td>
+            <td>
+              <p>a<%=file.name%></p>
+            </td>
+            <td>
+                <p><%=file.tipo%></p>
+            </td>
+            <td>
+                <p><%=file.size%></p>
+            </td>
+            <td>
+              <a href="/lgpd/visualizar-pdf/<%=file.id%>">
+                <button type="button" class="button-8" id="result">Visualizar</button>
+              </a>
+            </td>
+          </tr>
+          <%})%>
         </tbody>
         <tbody></tbody>
       </table>

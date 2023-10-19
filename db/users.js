@@ -2,14 +2,11 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 async function connect(){
-    if(global.connection && global.connection.state !== 'disconnected')
-        return global.connection;
-
     const mysql = require("mysql2/promise");
     const pool = mysql.createPool({
         host: process.env.SQLHOST,
         port: '3306',
-        user: process.env.SQLUSER,
+        user: 'docs_admin',
         password: process.env.SQLPASSWORD,
         database: process.env.SQLDATABASE,
         waitForConnections: true,
@@ -20,7 +17,6 @@ async function connect(){
         enableKeepAlive: true,
         keepAliveInitialDelay: 10000
       });
-    global.connection = pool;
     return pool;
 }
 

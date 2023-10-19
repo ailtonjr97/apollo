@@ -16,7 +16,6 @@ const faturamento = require("./routes/faturamento.js");
 const logistica = require("./routes/logistica.js");
 const financeiro = require("./routes/financeiro.js");
 const lgpd = require("./routes/lgpd.js");
-const fileUpload = require('express-fileupload')
 dotenv.config();
 const app = express();
 
@@ -26,7 +25,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieParser())
-app.use(fileUpload())
 
 function authenticationMiddleware(req, res, next){
   const token = req.cookies.jwt;
