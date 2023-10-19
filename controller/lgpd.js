@@ -36,11 +36,7 @@ const salvarPdf = async (req, res)=>{
 const visualizarPdf = async(req, res)=>{
     try {
         const consulta = await dbFiles.selectFile(req.params.id)
-
-        const base64 = consulta[0].file
-        const image = Buffer.from(base64, "base64")
-        
-        res.send(fs.writeFileSync("image.png", image))
+        res.send(`<embed src="data:${consulta[0].tipo};base64,${consulta[0].file}"/>`);
     } catch (error) {
         console.log(error);
         res.render('error');
