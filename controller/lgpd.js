@@ -1,5 +1,6 @@
 const fs = require('fs')
 const pdfParse = require('pdf-parse')
+const dbFiles = require('../db/lgpd')
 
 const home = async(req, res)=>{
     try {
@@ -21,15 +22,8 @@ const novoDocumento = async (req, res)=>{
 
 const lerPdf = async (req, res)=>{
     try {
-        console.log(req.body)
-        if(!req.files && !req.files.pdfFile){
-            res.status(400);
-            res.end();
-        }
-        pdfParse(req.files.pdfFile).then(result=>{
-            console.log(result)
-            res.send(result.text)
-        })
+        await dbFiles.insertFiles(req.body.pdfs)
+        res.redirect('/lgpd')
     } catch (error) {
         console.log(error);
         res.render('error');

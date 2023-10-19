@@ -66,7 +66,6 @@ input[type=file]::file-selector-button:hover {
 
 form{
   resize:both;
-  overflow:auto;
 }
 </style>
 
@@ -74,6 +73,13 @@ form{
     <h1>Novo Documento</h1>
 </div>
 <form action="/lgpd/ler-pdf" method="post" style="resize:both;">
+<div class="row">
+  <div class="col d-flex justify-content-start">
+    <button type="submit" class="button-8 mb-2" id="result" style="display: none; width: 10%;">Enviar</button>
+    <button onclick="recarrega()" type="button" class="button-8 mb-2" id="result" style="display: none; width: 10%; margin-left: 1%;">Refazer tudo</button>
+  </div>
+</div>
+
 <div class="row mt-2">
   <div class="col">
       <label for="images" id="drop-container" class="drop-container mt-2">
@@ -83,7 +89,7 @@ form{
       </label>
   </div>
 </div>
-<div id="carouselExampleControls" class="carousel slide" data-bs-interval="false" style="height: 600px;">
+<div id="carouselExampleControls" class="carousel slide" data-bs-interval="false" style="height: 650px;">
   <div class="carousel-inner" style="margin-left: 5%; width: 90%;">
   </div>
   <a style="width: 5%; margin-top: 10%;" class="carousel-control-prev setas" href="#carouselExampleControls" role="button" data-bs-slide="prev">
@@ -99,6 +105,10 @@ form{
 
 <script>
 //////////////////////////////////////////////////////////////
+let recarrega = ()=>{
+  location.reload();
+}
+
 document.getElementById('drop-container').addEventListener('dragover', e =>{
   e.preventDefault();
 })
@@ -224,7 +234,7 @@ document.getElementById('drop-container').addEventListener('drop', e =>{
       quadroPdf.style.height = '100%';
       quadroPdf.src = (URL.createObjectURL(item) + '#toolbar=0&navpanes=0&scrollbar=0');
 
-      document.getElementsByClassName('row')[1].style.display = 'none';
+      document.getElementsByClassName('row')[2].style.display = 'none';
 
       document.getElementsByClassName('carousel-inner')[0].appendChild(carItem);
       document.getElementsByClassName('carousel-item')[i].appendChild(row);
@@ -258,6 +268,9 @@ document.getElementById('drop-container').addEventListener('drop', e =>{
   //   //     resultText.value = extractedText
   //   // })
 }
+
+document.getElementsByClassName('button-8')[0].style.display = 'block'
+document.getElementsByClassName('button-8')[1].style.display = 'block'
 })
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -379,7 +392,7 @@ images.onchange = ev => {
       quadroPdf.style.height = '100%';
       quadroPdf.src = (URL.createObjectURL(item) + '#toolbar=0&navpanes=0&scrollbar=0');
 
-      document.getElementsByClassName('row')[1].style.display = 'none';
+      document.getElementsByClassName('row')[2].style.display = 'none';
 
       document.getElementsByClassName('carousel-inner')[0].appendChild(carItem);
       document.getElementsByClassName('carousel-item')[i].appendChild(row);
@@ -414,6 +427,8 @@ for(let i = 0; i < document.getElementsByClassName('setas').length; i++){
   document.getElementsByClassName('setas')[i].style.display = 'flex'
 }
 
+document.getElementsByClassName('button-8')[0].style.display = 'block'
+document.getElementsByClassName('button-8')[1].style.display = 'block'
 }
 
 for(let i = 0; i < document.getElementsByClassName('setas').length; i++){
