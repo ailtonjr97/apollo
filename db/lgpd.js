@@ -1,14 +1,14 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-async function connectFiles(){
+async function connect(){
     const mysql = require("mysql2/promise");
-    const poolFiles = mysql.createPool({
+    const pool = mysql.createPool({
         host: process.env.SQLHOST,
-        port: process.env.SQLUSER,
-        user: process.env.SQLUSERFILES,
-        password: process.env.SQLPASSWORDFILES,
-        database: process.env.SQLDATABASEFILES,
+        port: '3306',
+        user: 'docs_admin',
+        password: process.env.SQLPASSWORD,
+        database: process.env.SQLDATABASE,
         waitForConnections: true,
         connectionLimit: 10,
         maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`
@@ -17,25 +17,25 @@ async function connectFiles(){
         enableKeepAlive: true,
         keepAliveInitialDelay: 10000
       });
-    return poolFiles;
+    return pool;
 }
 
-connectFiles();
+connect();
 
 let showFiles = async(file)=>{
-    const conn = await connectFiles();
-    const [values] = await conn.query('select id, name, tipo, size from docspro_files.files');
+    const conn = await connect();
+    const [values] = await conn.query('select * from docspro.files');
     return values
 }
 
-let insertFiles = async(file, name, tipo, size)=>{
-    const conn = await connectFiles();
-    await conn.query('INSERT INTO docspro_files.files (file, name, tipo, size) VALUES (?, ?, ?, ?)', [file, name, tipo, size]);
+let insertFiles = async(fieldname, originalname, encoding, mimetype, destination, filename, path, size)=>{
+    const conn = await connect();
+    await conn.query('INSERT INTO docspro.files (fieldname, originalname, encoding, mimetype, destination, filename, path, size) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [fieldname, originalname, encoding, mimetype, destination, filename, path, size]);
 }
 
 let selectFile = async(id)=>{
-    const conn = await connectFiles();
-    const [values] = await conn.query('select file, tipo from files where id = ?', id);
+    const conn = await connect();
+    const [values] = await conn.query('select filename from files where id = ?', id);
     return values
 }
 

@@ -1,5 +1,5 @@
 const dbFiles = require('../db/lgpd');
-const fs = require('fs');
+const path = require('path');
 
 const home = async(req, res)=>{
     try {
@@ -23,10 +23,10 @@ const novoDocumento = async (req, res)=>{
 
 const salvarPdf = async (req, res)=>{
     try {
-        req.files.forEach(element => {
-            dbFiles.insertFiles(element.buffer.toString('base64'), element.originalname, element.mimetype, element.size)
+        req.files.forEach(file => {
+            dbFiles.insertFiles(file.fieldname, file.originalname, file.encoding, file.mimetype, file.destination, file.filename, file.path, file.size)
         });
-        res.redirect('/lgpd/novo-documento')
+        res.redirect('/lgpd')
     } catch (error) {
         console.log(error);
         res.render('error');
@@ -36,17 +36,26 @@ const salvarPdf = async (req, res)=>{
 const visualizarPdf = async(req, res)=>{
     try {
         const consulta = await dbFiles.selectFile(req.params.id)
-        res.send(`<embed src="data:${consulta[0].tipo};base64,${consulta[0].file}"/>`);
+        res.send(`<embed src="/lgpd/arquivo/${consulta[0].filename}" style="width: 100%; height: 700px"/>`);
     } catch (error) {
         console.log(error);
         res.render('error');
     }
 }
 
+const enviarArquivo = async(req, res) =>{
+    try {
+        res.sendFile(path.join(__dirname, `../storage/${req.params.filename}`))
+    } catch (error) {
+        console.log(error);
+        res.render('error');
+    }
+}
 
 module.exports = {
     home,
     novoDocumento,
     salvarPdf,
-    visualizarPdf
+    visualizarPdf,
+    enviarArquivo
 };

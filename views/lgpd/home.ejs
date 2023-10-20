@@ -77,23 +77,22 @@
                 <p><%=file.id%></p>
             </td>
             <td>
-              <p>a<%=file.name%></p>
+              <p>a<%=file.originalname%></p>
             </td>
             <td>
-                <p><%=file.tipo%></p>
+                <p><%=file.mimetype%></p>
             </td>
             <td>
-                <p><%=file.size%></p>
+                <p><%=(file.size / 1000000).toFixed(2)%> MB</p>
             </td>
             <td>
-              <a href="/lgpd/visualizar-pdf/<%=file.id%>">
+              <a href="/lgpd/visualizar/<%=file.id%>">
                 <button type="button" class="button-8" id="result">Visualizar</button>
               </a>
             </td>
           </tr>
           <%})%>
         </tbody>
-        <tbody></tbody>
       </table>
     </div>
 

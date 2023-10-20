@@ -1,1 +1,13 @@
-<embed src="<%=caminho%>" type="<%=tipo%>">
+<embed id="visu">
+
+<script type="text/javascript">
+    fetch(`/lgpd/renderizar-pdf/<%=id%>`)
+    .then(function (response) {
+        console.log(response)
+        document.getElementById('visu').src = `<embed style="resizable: both" src="data:${response[0].file};base64,${response[0].tipo}"/>`
+    })
+    .then(function (myBlob) {
+        // var objectURL = URL.createObjectURL(myBlob);
+        // myImage.src = objectURL;
+    });
+</script>
