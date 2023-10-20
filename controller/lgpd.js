@@ -56,7 +56,14 @@ const enviarArquivo = async(req, res) =>{
 
 const newuser = async(req, res) =>{
     try {
-        res.render('lgpd/novoUsuario')
+console.log(req.query.limit);
+        if(req.query.limit == null){
+            var user = await dbFiles.selectUsers(25);
+        }else{
+            var user = await dbFiles.selectUsers(req.query.limit);
+        }
+        
+        res.render('lgpd/novoUsuario',{users:user});
     } catch (error) {
         console.log(error);
         res.render('error');
@@ -76,9 +83,9 @@ const saveRegisterNewUser = async(req, res) =>{
 
          dbFiles.insertNewUsers(req.body.nome,req.body.cpf,req.body.rg,req.body.nascimento,req.body.setor,req.body.status_)
 
-        res.render('lgpd/novoUsuario')
+        res.redirect('/lgpd/novo-usuario')
     } catch (error) {
-        console.log(error);
+
         res.render('error');
     }
 }

@@ -65,7 +65,15 @@
           </tr>
         </thead>
         <tbody>
-          
+          <%users.forEach ((user)=>{%>
+            <tr>
+                <td><%=user.id %></td>
+                <td><%=user.nome %></td>
+                <td><%=user.status %></td>
+                <td><%=user.setor %></td>
+                <td></td>
+            </tr>
+          <%})%>
         </tbody>
       </table>
     </div>
