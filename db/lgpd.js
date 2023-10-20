@@ -50,10 +50,17 @@ let insertNewUsers = async(nome,cpf,rg,nascimento,setor,status_)=>{
     await conn.query('INSERT INTO docspro.lgpd_pessoas (nome,cpf,rg,nascimento,setor,status) VALUES (?, ?, ?, ?, ?, ?)', [nome,cpf,rg,nascimento,setor,status_]);
 }
 
+let selectUsers = async(qtd)=>{
+    const conn = await connect();
+    const [values] = await conn.query('select * from lgpd_pessoas order by id desc  limit '+ qtd);
+    return values
+}
+
 module.exports = {
     showFiles,
     insertFiles,
     selectFile,
     insertNewUsers,
-    countFiles
+    countFiles,
+    selectUsers
 }
