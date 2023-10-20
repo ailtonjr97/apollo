@@ -23,6 +23,7 @@ const novoDocumento = async (req, res)=>{
 
 const salvarPdf = async (req, res)=>{
     try {
+        console.log()
         req.files.forEach(file => {
             dbFiles.insertFiles(file.fieldname, file.originalname, file.encoding, file.mimetype, file.destination, file.filename, file.path, file.size)
         });
