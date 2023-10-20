@@ -4,7 +4,8 @@ const path = require('path');
 const home = async(req, res)=>{
     try {
         res.render('lgpd/home', {
-            files: await dbFiles.showFiles()
+            files: await dbFiles.showFiles(),
+            contagem: await dbFiles.countFiles()
         });
     } catch (error) {
         console.log(error);

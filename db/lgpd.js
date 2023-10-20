@@ -6,7 +6,7 @@ async function connect(){
     const pool = mysql.createPool({
         host: process.env.SQLHOST,
         port: '3306',
-        user: 'docs_admin',
+        user: process.env.SQLUSER,
         password: process.env.SQLPASSWORD,
         database: process.env.SQLDATABASE,
         waitForConnections: true,
@@ -26,6 +26,12 @@ let showFiles = async(file)=>{
     const conn = await connect();
     const [values] = await conn.query('select * from docspro.files');
     return values
+}
+
+let countFiles = async()=>{
+    const conn = await connect();
+    const [values] = await conn.query('select count(id) as contagem from docspro.files');
+    return values[0].contagem
 }
 
 let insertFiles = async(fieldname, originalname, encoding, mimetype, destination, filename, path, size)=>{
@@ -48,5 +54,6 @@ module.exports = {
     showFiles,
     insertFiles,
     selectFile,
-    insertNewUsers
+    insertNewUsers,
+    countFiles
 }
