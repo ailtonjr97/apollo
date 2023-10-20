@@ -39,8 +39,14 @@ let selectFile = async(id)=>{
     return values
 }
 
+let insertNewUsers = async(nome,cpf,rg,nascimento,setor,status_)=>{
+    const conn = await connect();
+    await conn.query('INSERT INTO docspro.lgpd_pessoas (nome,cpf,rg,nascimento,setor,status) VALUES (?, ?, ?, ?, ?, ?)', [nome,cpf,rg,nascimento,setor,status_]);
+}
+
 module.exports = {
     showFiles,
     insertFiles,
-    selectFile
+    selectFile,
+    insertNewUsers
 }

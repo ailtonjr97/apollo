@@ -52,10 +52,41 @@ const enviarArquivo = async(req, res) =>{
     }
 }
 
+const newuser = async(req, res) =>{
+    try {
+        res.render('lgpd/novoUsuario')
+    } catch (error) {
+        console.log(error);
+        res.render('error');
+    }
+}
+
+const registernewuser = async(req, res) =>{
+    try {
+        res.render('lgpd/cadastronovoUsuario')
+    } catch (error) {
+        console.log(error);
+        res.render('error');
+    }
+}
+const saveRegisterNewUser = async(req, res) =>{
+    try {
+
+         dbFiles.insertNewUsers(req.body.nome,req.body.cpf,req.body.rg,req.body.nascimento,req.body.setor,req.body.status_)
+
+        res.render('lgpd/novoUsuario')
+    } catch (error) {
+        console.log(error);
+        res.render('error');
+    }
+}
 module.exports = {
     home,
     novoDocumento,
     salvarPdf,
     visualizarPdf,
-    enviarArquivo
+    enviarArquivo,
+    newuser,
+    registernewuser,
+    saveRegisterNewUser
 };
