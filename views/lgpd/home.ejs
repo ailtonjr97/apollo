@@ -77,10 +77,20 @@
                 <p><%=file.id%></p>
             </td>
             <td>
-              <p>a<%=file.originalname%></p>
+              <p><%=file.originalname%></p>
             </td>
             <td>
-                <p><%=file.mimetype%></p>
+                <p>
+                  <%if(file.tipo == 'application/pdf'){%>
+                    PDF
+                  <%}%>
+                  <%if(file.tipo == 'video/mp4'){%>
+                    MP4
+                  <%}%>
+                  <%if(file.tipo == 'image/jpg'){%>
+                    JPG
+                  <%}%>
+                </p>
             </td>
             <td>
                 <p><%=(file.size / 1000000).toFixed(2)%> MB</p>
