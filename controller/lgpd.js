@@ -24,8 +24,10 @@ const home = async(req, res)=>{
 
 const novoDocumento = async (req, res)=>{
     try {
-        const tipos = await dbFiles.
-        res.render('lgpd/novoDocumento')
+        const tipos = await dbFiles.selectGrouDoc()
+        res.render('lgpd/novoDocumento', {
+            tipos: tipos
+        })
     } catch (error) {
         console.log(error);
         res.render('error');

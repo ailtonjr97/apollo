@@ -61,9 +61,9 @@ let insertNewGrouDoc = async(nome,descricao,validade,setor,grupo_seguranca,img_e
     await conn.query('INSERT INTO docspro.files_group (nome,descricao,validade,setor,grupo_seguranca,img_exemplo) VALUES (?, ?, ?, ?, ?, ?)', [nome,descricao,validade,setor,grupo_seguranca,img_exemplo]);
 }
 
-let selectGrouDoc = async(qtd)=>{
+let selectGrouDoc = async()=>{
     const conn = await connect();
-    const [values] = await conn.query('select * from files_group order by id desc  limit '+ qtd);
+    const [values] = await conn.query('select * from files_group order by id desc');
     return values
 }
 
