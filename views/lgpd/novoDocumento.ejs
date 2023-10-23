@@ -295,6 +295,7 @@ images.onchange = ev => {
       inputNome.setAttribute("id", "name");
       inputNome.setAttribute("type", "text");
       inputNome.setAttribute("placeholder", "Nome:");
+      inputNome.setAttribute("name", "input_nome");
 
       let labelNome = document.createElement('label');
       labelNome.setAttribute('for', 'name')
@@ -312,6 +313,7 @@ images.onchange = ev => {
       inputSub.setAttribute("id", "subtitulo");
       inputSub.setAttribute("type", "text");
       inputSub.setAttribute("placeholder", "Subtítulo:");
+      inputSub.setAttribute("name", "input_subtitulo");
 
       let labelSub = document.createElement('label');
       labelSub.setAttribute('for', 'subtitulo')
@@ -328,6 +330,7 @@ images.onchange = ev => {
       inputTipo.classList.add('form-select');
       inputTipo.setAttribute("id", "tipo");
 
+      
       let opt1 = document.createElement('option');
       opt1.setAttribute('value', '1');
       opt1.setAttribute('selected', '');

@@ -24,6 +24,7 @@ const home = async(req, res)=>{
 
 const novoDocumento = async (req, res)=>{
     try {
+        const tipos = await dbFiles.
         res.render('lgpd/novoDocumento')
     } catch (error) {
         console.log(error);
@@ -45,6 +46,7 @@ const salvarPdf = async (req, res)=>{
             await files.insertFiles(criptografado, file.originalname, file.mimetype, file.size, file.fieldname, file.encoding)
         });
 
+        console.log(req.body)
         res.redirect('/lgpd')
     } catch (error) {
         console.log(error);
@@ -91,7 +93,7 @@ const enviarArquivo = async(req, res) =>{
 
         setTimeout(()=>{
             fs.unlinkSync("temp/" + nomeArq)
-        }, 10000)
+        }, 60000)
         
     } catch (error) {
         console.log(error);
@@ -120,7 +122,7 @@ const baixarArquivo = async(req, res) =>{
 
         setTimeout(()=>{
             fs.unlinkSync("temp/" + nomeArq)
-        }, 10000)
+        }, 60000)
         
     } catch (error) {
         console.log(error);
