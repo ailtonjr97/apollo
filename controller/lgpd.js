@@ -160,6 +160,42 @@ const saveRegisterNewUser = async(req, res) =>{
         res.render('error');
     }
 }
+
+
+const newGroupDoc = async(req, res) =>{
+    try {
+        if(req.query.limit == null){
+            var grupos = await dbFiles.selectGrouDoc(25);
+        }else{
+            var grupos = await dbFiles.selectGrouDoc(req.query.limit);
+        }
+        
+        res.render('lgpd/gruposDocumento',{grupos:grupos});
+    } catch (error) {
+        console.log(error);
+        res.render('error');
+    }
+}
+const registerNewGroupDoc = async(req, res) =>{
+    try {
+        res.render('lgpd/cadastroGruposDocumento')
+    } catch (error) {
+        console.log(error);
+        res.render('error');
+    }
+}
+const saveRegisterNewGroupDoc = async(req, res) =>{
+    try {
+        dbFiles.insertNewGrouDoc(req.body.nome,req.body.descricao,req.body.validade,req.body.setor,req.body.grupo_seguranca,req.body.img_exemplo)
+        res.redirect('/lgpd/novo-grupo-documento')
+    } catch (error) {
+        console.log(error);
+        res.render('error');
+    }
+}
+
+
+
 module.exports = {
     home,
     novoDocumento,
@@ -169,5 +205,8 @@ module.exports = {
     newuser,
     registernewuser,
     saveRegisterNewUser,
-    baixarArquivo
+    baixarArquivo,
+    newGroupDoc,
+    registerNewGroupDoc,
+    saveRegisterNewGroupDoc
 };
