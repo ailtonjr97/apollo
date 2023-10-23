@@ -5,19 +5,19 @@
 
 
 <div id="loading"></div>
+<!-- Button trigger modal -->
+ 
+  
 
-
-    <div class="row mt-2">
-      <div class="col">
-        <h4>Cadastro tipos de documento</h4>
-      </div>
+    <div class="row"> 
+                    <div class="card-header"> 
+                        <h4>Cadastro tipos de documento</h4><br>
+                    </div>
     </div>
     <div class="row">
-    <div class="col-sm-1">
-        <a href="/lgpd/cadastro-grupo-documento">
-            <button type="button" class="button-8" id="result">Novo Tipo</button>
-          </a>
-    </div>
+    <div class="col-sm-12">
+        <%- include('../lgpd/cadastroGruposDocumento') %>
+   </div>
     <div class="col-lg-6">
     </div>
     <div class="col-lg-5">
@@ -78,6 +78,8 @@
           </tr>
         </thead>
         <tbody>
+
+            
           <%grupos.forEach ((grupo)=>{%>
             <tr>
                 <td><%=grupo.id %></td>
@@ -98,3 +100,4 @@
 <script type="text/javascript" src="/js/carregador.js"></script>
 <script type="text/javascript" src="/js/confirmation.js"></script>
 <script type="text/javascript" src="/js/procura.js"></script>
+<script type="text/javascript" src="/js/carregamodal.js"></script>
