@@ -55,7 +55,15 @@ const salvarPdf = async (req, res)=>{
 const visualizarPdf = async(req, res)=>{
     try {
         const consulta = await files.visualizaFile(req.params.id)
-        res.send(`<embed src="/lgpd/arquivo/${consulta[0].id}#toolbar=0&navpanes=0&scrollbar=0"" style="width: 100%; height: 700px"/>`);
+        if(consulta[0].tipo != 'video/mp4'){
+            res.send(`<embed src="/lgpd/arquivo/${consulta[0].id}#toolbar=0&navpanes=0&scrollbar=0"" style="width: 100%; height: 700px"/>`);
+        } else{
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.write('<video width="320" height="240" controls controlsList="nodownload style="width: 100%; height: 700px">');
+            res.write(`<source src="/lgpd/arquivo/${consulta[0].id}" type="video/mp4"/>`);
+            res.write('</video>');
+            res.end();
+        }
     } catch (error) {
         console.log(error);
         res.render('error');
@@ -65,13 +73,9 @@ const visualizarPdf = async(req, res)=>{
 const enviarArquivo = async(req, res) =>{
     try {
         const decrypt = (encrypted) => {
-            // Get the iv: the first 16 bytes
             const iv = encrypted.slice(0, 16);
-            // Get the rest
             encrypted = encrypted.slice(16);
-            // Create a decipher
             const decipher = crypto.createDecipheriv(algorithm, key, iv);
-            // Actually decrypt it
             const result = Buffer.concat([decipher.update(encrypted), decipher.final()]);
             return result;
          };
@@ -81,13 +85,42 @@ const enviarArquivo = async(req, res) =>{
 
         const nomeArq = Date.now() + '-' + resultado[0].originalname
 
-        fs.writeFileSync(nomeArq, decrypted)
+        fs.writeFileSync("temp/" + nomeArq, decrypted)
 
-        res.sendFile(path.join(__dirname, `../${nomeArq}`))
+        res.sendFile(path.join(__dirname, `../temp/${nomeArq}`))
 
         setTimeout(()=>{
-            fs.unlinkSync(nomeArq)
-        }, 60000)
+            fs.unlinkSync("temp/" + nomeArq)
+        }, 10000)
+        
+    } catch (error) {
+        console.log(error);
+        res.render('error');
+    }
+}
+
+const baixarArquivo = async(req, res) =>{
+    try {
+        const decrypt = (encrypted) => {
+            const iv = encrypted.slice(0, 16);
+            encrypted = encrypted.slice(16);
+            const decipher = crypto.createDecipheriv(algorithm, key, iv);
+            const result = Buffer.concat([decipher.update(encrypted), decipher.final()]);
+            return result;
+         };
+
+        const resultado = await files.selectFile(req.params.id)
+        const decrypted = decrypt(resultado[0].file);
+
+        const nomeArq = Date.now() + '-' + resultado[0].originalname
+
+        fs.writeFileSync("temp/" + nomeArq, decrypted)
+
+        res.download(path.join(__dirname, `../temp/${nomeArq}`))
+
+        setTimeout(()=>{
+            fs.unlinkSync("temp/" + nomeArq)
+        }, 10000)
         
     } catch (error) {
         console.log(error);
@@ -97,7 +130,6 @@ const enviarArquivo = async(req, res) =>{
 
 const newuser = async(req, res) =>{
     try {
-console.log(req.query.limit);
         if(req.query.limit == null){
             var user = await dbFiles.selectUsers(25);
         }else{
@@ -121,12 +153,10 @@ const registernewuser = async(req, res) =>{
 }
 const saveRegisterNewUser = async(req, res) =>{
     try {
-
-         dbFiles.insertNewUsers(req.body.nome,req.body.cpf,req.body.rg,req.body.nascimento,req.body.setor,req.body.status_)
-
+        dbFiles.insertNewUsers(req.body.nome,req.body.cpf,req.body.rg,req.body.nascimento,req.body.setor,req.body.status_)
         res.redirect('/lgpd/novo-usuario')
     } catch (error) {
-
+        console.log(error);
         res.render('error');
     }
 }
@@ -138,5 +168,6 @@ module.exports = {
     enviarArquivo,
     newuser,
     registernewuser,
-    saveRegisterNewUser
+    saveRegisterNewUser,
+    baixarArquivo
 };

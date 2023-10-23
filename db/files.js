@@ -42,7 +42,7 @@ let selectFile = async(id)=>{
 
 let visualizaFile = async(id)=>{
     const conn = await connectFiles();
-    const [values] = await conn.query('select id from docspro_files.files where id = ?', id);
+    const [values] = await conn.query('select id, tipo from docspro_files.files where id = ?', id);
     return values
 }
 

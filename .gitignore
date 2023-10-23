@@ -42,6 +42,7 @@ build/Release
 storage/
 node_modules/
 jspm_packages/
+temp/
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
