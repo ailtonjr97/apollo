@@ -270,7 +270,6 @@ images.onchange = ev => {
 
     if (images.files) {
     [...images.files].forEach((item, i) => {
-      console.log(item)
       //////////////////////////////////////////////////////
       //Criação da row
       const row = document.createElement('div')
@@ -330,30 +329,20 @@ images.onchange = ev => {
       inputTipo.classList.add('form-select');
       inputTipo.setAttribute("id", "tipo");
 
-      
-      let opt1 = document.createElement('option');
-      opt1.setAttribute('value', '1');
-      opt1.setAttribute('selected', '');
-      opt1.innerText = '1'
-
-      let opt2 = document.createElement('option');
-      opt2.setAttribute('value', '2');
-      opt2.innerText = '2'
-
-      let opt3 = document.createElement('option');
-      opt3.setAttribute('value', '3');
-      opt3.innerText = '3'
-
-      inputTipo.appendChild(opt1);
-      inputTipo.appendChild(opt2);
-      inputTipo.appendChild(opt3);
-
+      let opt = document.createElement('option');
       let labelTipo = document.createElement('label');
+
+      "<%tipos.forEach(element =>{%>"
+      opt.setAttribute('value', "<%=element.id%>");
+      opt.innerText = "<%=element.nome%>"
+      inputTipo.appendChild(opt);
+
       labelTipo.setAttribute('for', 'tipo')
       labelTipo.innerText = 'Tipo:'
 
       divTipo.appendChild(inputTipo)
       divTipo.appendChild(labelTipo)
+      "<%})%>"
       //////////////////////////////////////////////////////
       //Criação do botão obs
       let divObs = document.createElement('div');
