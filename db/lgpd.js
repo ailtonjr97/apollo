@@ -63,7 +63,7 @@ let insertNewGrouDoc = async(nome,descricao,validade,setor,grupo_seguranca,img_e
 
 let selectGrouDoc = async()=>{
     const conn = await connect();
-    const [values] = await conn.query('select * from files_group order by id desc');
+    const [values] = await conn.query('select * from files_group order by id asc');
     return values
 }
 

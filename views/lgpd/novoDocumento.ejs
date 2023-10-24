@@ -294,7 +294,7 @@ images.onchange = ev => {
       inputNome.setAttribute("id", "name");
       inputNome.setAttribute("type", "text");
       inputNome.setAttribute("placeholder", "Nome:");
-      inputNome.setAttribute("name", "input_nome");
+      inputNome.setAttribute("name", `input_nome${i}`);
 
       let labelNome = document.createElement('label');
       labelNome.setAttribute('for', 'name')
@@ -312,7 +312,7 @@ images.onchange = ev => {
       inputSub.setAttribute("id", "subtitulo");
       inputSub.setAttribute("type", "text");
       inputSub.setAttribute("placeholder", "Subtítulo:");
-      inputSub.setAttribute("name", "input_subtitulo");
+      inputSub.setAttribute("name", `input_subtitulo${i}`);
 
       let labelSub = document.createElement('label');
       labelSub.setAttribute('for', 'subtitulo')
@@ -328,21 +328,24 @@ images.onchange = ev => {
       let inputTipo = document.createElement('select');
       inputTipo.classList.add('form-select');
       inputTipo.setAttribute("id", "tipo");
+      inputTipo.setAttribute("name", `input_tipo${i}`);
 
       let opt = document.createElement('option');
       let labelTipo = document.createElement('label');
 
-      "<%tipos.forEach(element =>{%>"
-      opt.setAttribute('value', "<%=element.id%>");
-      opt.innerText = "<%=element.nome%>"
-      inputTipo.appendChild(opt);
+      <%tipos.forEach(element =>{%>
+      let <%=element.nome%> = document.createElement('option');
+      <%=element.nome%>.setAttribute('value', "<%=element.id%>");
+      <%=element.nome%>.innerText = "<%=element.nome%>"
+      inputTipo.appendChild(<%=element.nome%>);
 
       labelTipo.setAttribute('for', 'tipo')
       labelTipo.innerText = 'Tipo:'
+      
+      <%})%>
 
       divTipo.appendChild(inputTipo)
       divTipo.appendChild(labelTipo)
-      "<%})%>"
       //////////////////////////////////////////////////////
       //Criação do botão obs
       let divObs = document.createElement('div');
@@ -352,6 +355,7 @@ images.onchange = ev => {
       textareaObs.classList.add('form-control');
       textareaObs.setAttribute("id", "obs");
       textareaObs.setAttribute("placeholder", "Observações:");
+      textareaObs.setAttribute("name", `input_obs${i}`);
 
       let labelObs = document.createElement('label');
       labelObs.setAttribute('for', 'obs')
