@@ -45,6 +45,21 @@
                             </select>
                             <label for="admin">Admin?</label>
                         </div>
+                        <div class="form-floating" style="min-width: 15%;">
+                            <select class="form-select" id="dpo" name="dpo">
+                                <%if(user.dpo == 1){%>
+                                    <option value="<%=user.dpo%>">Sim</option>
+                                <%}else{%>
+                                    <option value="<%=user.dpo%>">Não</option>
+                                <%}%>
+                                <%if(user.dpo == 1){%>
+                                    <option value="0">Não</option>
+                                <%}else{%>
+                                <option value="1">Sim</option>
+                                <%}%>
+                            </select>
+                            <label for="dpo">DPO?</label>
+                        </div>
                     </div>
                 </div>
                 <div class="row mt-3">

@@ -38,24 +38,6 @@
           <label for="procuraBtn1">Nome:</label>
         </div>
       </div>
-      <div class="col">
-        <div class="form-floating">
-          <input type="text" class="form-control" id="procuraBtn2" onkeyup="procura(2, 'procuraBtn2')"/>
-          <label for="procuraBtn2">E-mail:</label>
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-floating">
-          <input type="text" class="form-control" id="procuraBtn3" onkeyup="procura(3, 'procuraBtn3')"/>
-          <label for="procuraBtn2">Filial:</label>
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-floating">
-          <input type="text" class="form-control" id="procuraBtn4" onkeyup="procura(4, 'procuraBtn4')"/>
-          <label for="procuraBtn2">Departamento:</label>
-        </div>
-      </div>
     </div>
     <div class="table-wrapper table-responsive table-striped">
       <table class="fl-table" id="myTable">
@@ -64,8 +46,8 @@
             <th>ID</th>
             <th>Nome</th>
             <th>E-mail</th>
-            <th>Filial</th>
-            <th>Departamento</th>
+            <th>Admin</th>
+            <th>DPO</th>
             <%if(user.admin == 1){%>
             <th>Ações</th>
             <%}%>
@@ -85,10 +67,22 @@
               <p><%=user.email%></p>
             </td>
             <td>
-              <p></p>
+              <p>
+                <%if(user.admin == 1){%>
+                  Sim
+                <%}else{%>
+                  Não
+                <%}%>
+              </p>
             </td>
             <td>
-              <p></p>
+              <p>
+                <%if(user.dpo == 1){%>
+                  Sim
+                <%}else{%>
+                  Não
+                <%}%>
+              </p>
             </td>
             <%if(user.admin == 1){%>
             <td style="padding-bottom: 15px;">
