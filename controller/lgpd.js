@@ -34,6 +34,7 @@ const novoDocumento = async (req, res)=>{
     }
 }
 
+
 const salvarPdf = async (req, res)=>{
     try {
         const encrypt = (buffer) => {
@@ -43,12 +44,38 @@ const salvarPdf = async (req, res)=>{
             return result;
         };
 
-        req.files.forEach(async (file) => {
-            let criptografado = encrypt(file.buffer);
-            await files.insertFiles(criptografado, file.originalname, file.mimetype, file.size, file.fieldname, file.encoding)
-        });
+        if(req.files.length != 1){
+            for(let i = 0; i < req.files.length; i++){
+                let criptografado = encrypt(req.files[i].buffer);
+                await files.insertFiles(
+                    criptografado,
+                    req.files[i].originalname, 
+                    req.files[i].mimetype, 
+                    req.files[i].size, 
+                    req.files[i].fieldname, 
+                    req.files[i].encoding,
+                    req.body.input_nome[i],
+                    req.body.input_subtitulo[i],
+                    req.body.input_tipo[i],
+                    req.body.input_obs[i]
+                )
+            }
+        }else{
+            let criptografado = encrypt(req.files[0].buffer);
+            await files.insertFiles(
+                criptografado,
+                req.files[0].originalname, 
+                req.files[0].mimetype, 
+                req.files[0].size, 
+                req.files[0].fieldname, 
+                req.files[0].encoding,
+                req.body.input_nome,
+                req.body.input_subtitulo,
+                req.body.input_tipo,
+                req.body.input_obs
+            )
+        }
 
-        console.log(req.body)
         res.redirect('/lgpd')
     } catch (error) {
         console.log(error);
