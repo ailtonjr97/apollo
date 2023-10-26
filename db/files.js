@@ -46,9 +46,9 @@ let visualizaFile = async(id)=>{
     return values
 }
 
-let insertFiles = async(file, originalname, tipo, size, fieldname, encoding)=>{
+let insertFiles = async(file, originalname, tipo, size, fieldname, encoding, input_nome, input_subtitulo, input_tipo, input_obs)=>{
     const conn = await connectFiles();
-    await conn.query('INSERT INTO docspro_files.files (file, originalname, tipo, size, fieldname, encoding) VALUES (?, ?, ?, ?, ?, ?)', [file, originalname, tipo, size, fieldname, encoding]);
+    await conn.query('INSERT INTO docspro_files.files (file, originalname, tipo, size, fieldname, encoding, input_nome, input_subtitulo, input_tipo, input_obs) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [file, originalname, tipo, size, fieldname, encoding, input_nome, input_subtitulo, input_tipo, input_obs]);
 }
 
 module.exports = {
