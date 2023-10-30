@@ -3,6 +3,7 @@ const files = require('../db/files')
 const fs = require('fs');
 const crypto = require('crypto');
 const path = require('path');
+const {Worker, isMainThread, parentPort, workerData} = require("worker_threads");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -116,12 +117,14 @@ const enviarArquivo = async(req, res) =>{
 
         const nomeArq = Date.now() + '-' + resultado[0].originalname
 
-        fs.writeFileSync("temp/" + nomeArq, decrypted)
-
-        res.sendFile(path.join(__dirname, `../temp/${nomeArq}`))
+        fs.writeFile("temp/" + nomeArq, decrypted, ()=>{
+            res.sendFile(path.join(__dirname, `../temp/${nomeArq}`))
+        })
 
         setTimeout(()=>{
-            fs.unlinkSync("temp/" + nomeArq)
+            fs.unlink("temp/" + nomeArq, (err)=>{
+                if (err) console.log(err); 
+            })
         }, 60000)
         
     } catch (error) {
