@@ -16,6 +16,7 @@ const faturamento = require("./routes/faturamento.js");
 const logistica = require("./routes/logistica.js");
 const financeiro = require("./routes/financeiro.js");
 const lgpd = require("./routes/lgpd.js");
+const axios = require("axios")
 dotenv.config();
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieParser())
+
 
 function authenticationMiddleware(req, res, next){
   const token = req.cookies.jwt;
