@@ -22,7 +22,7 @@ async function connect(){
 
 connect();
 
-let showFiles = async(file)=>{
+let showFiles = async()=>{
     const conn = await connect();
     const [values] = await conn.query('select * from docspro.files');
     conn.end();
@@ -36,16 +36,22 @@ let countFiles = async()=>{
     return values[0].contagem
 }
 
-let insertFiles = async(fieldname, originalname, encoding, mimetype, destination, filename, path, size)=>{
+let insertFiles = async(fieldname, originalname, encoding, mimetype, size, name)=>{
     const conn = await connect();
-    await conn.query('INSERT INTO docspro.files (fieldname, originalname, encoding, mimetype, destination, filename, path, size) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [fieldname, originalname, encoding, mimetype, destination, filename, path, size]);
+    await conn.query('INSERT INTO docspro.files (fieldname, originalname, encoding, mimetype, size, name) VALUES (?, ?, ?, ?, ?, ?)', [fieldname, originalname, encoding, mimetype, size, name]);
     conn.end();
 }
 
 let selectFile = async(id)=>{
     const conn = await connect();
-    const [values] = await conn.query('select filename from files where id = ?', id);
+    const [values] = await conn.query('select name from files where id = ?', id);
     conn.end();
+    return values
+}
+
+let visualizaFile = async(id)=>{
+    const conn = await connect();
+    const [values] = await conn.query('select id from docspro.files where id = ?', id);
     return values
 }
 
@@ -83,5 +89,6 @@ module.exports = {
     countFiles,
     selectUsers,
     insertNewGrouDoc,
-    selectGrouDoc
+    selectGrouDoc,
+    visualizaFile
 }

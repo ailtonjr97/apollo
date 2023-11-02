@@ -73,14 +73,17 @@
             </td>
             <td>
                 <p>
-                  <%if(file.tipo == 'application/pdf'){%>
+                  <%if(file.mimetype == 'application/pdf'){%>
                     PDF
                   <%}%>
-                  <%if(file.tipo == 'video/mp4'){%>
+                  <%if(file.mimetype == 'video/mp4'){%>
                     MP4
                   <%}%>
-                  <%if(file.tipo == 'image/jpg'){%>
+                  <%if(file.mimetype == 'image/jpg'){%>
                     JPG
+                  <%}%>
+                  <%if(file.mimetype == 'image/png'){%>
+                    PNG
                   <%}%>
                 </p>
             </td>
