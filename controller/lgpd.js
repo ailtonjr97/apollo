@@ -1,9 +1,7 @@
 const dbFiles = require('../db/lgpd');
-const files = require('../db/files')
 const fs = require('fs');
 const crypto = require('crypto');
 const path = require('path');
-const {Worker, isMainThread, parentPort, workerData} = require("worker_threads");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -14,8 +12,8 @@ key = crypto.createHash('sha256').update(String(key)).digest('base64').substring
 const home = async(req, res)=>{
     try {
         res.render('lgpd/home', {
-            files: await files.showFiles(),
-            contagem: await files.countFiles()
+            files: await dbFiles.showFiles(),
+            contagem: await dbFiles.countFiles()
         });
     } catch (error) {
         console.log(error);
@@ -36,7 +34,7 @@ const novoDocumento = async (req, res)=>{
 }
 
 
-const salvarPdf = async (req, res)=>{
+const salvarArquivo = async (req, res)=>{
     try {
         const encrypt = (buffer) => {
             const iv = crypto.randomBytes(16);
@@ -45,39 +43,23 @@ const salvarPdf = async (req, res)=>{
             return result;
         };
 
-        if(req.files.length != 1){
-            for(let i = 0; i < req.files.length; i++){
-                let criptografado = encrypt(req.files[i].buffer);
-                await files.insertFiles(
-                    criptografado,
-                    req.files[i].originalname, 
-                    req.files[i].mimetype, 
-                    req.files[i].size, 
-                    req.files[i].fieldname, 
-                    req.files[i].encoding,
-                    req.body.input_nome[i],
-                    req.body.input_subtitulo[i],
-                    req.body.input_tipo[i],
-                    req.body.input_obs[i]
-                )
-            }
-        }else{
-            let criptografado = encrypt(req.files[0].buffer);
-            await files.insertFiles(
-                criptografado,
-                req.files[0].originalname, 
-                req.files[0].mimetype, 
-                req.files[0].size, 
-                req.files[0].fieldname, 
-                req.files[0].encoding,
-                req.body.input_nome,
-                req.body.input_subtitulo,
-                req.body.input_tipo,
-                req.body.input_obs
-            )
+        for(let i = 0; i < req.files.length; i++){
+            const name = Date.now() + "-" + req.files[i].originalname
+
+            const criptografado = encrypt(req.files[i].buffer);
+    
+            await dbFiles.insertFiles(req.files[i].fieldname, req.files[i].originalname, req.files[i].encoding, req.files[i].mimetype, req.files[i].size, name);
+    
+            fs.writeFile("storage/" + name, criptografado, (err) => { 
+                if(err){
+                    console.log(err);
+                    res.render('error')
+                }
+            });
         }
 
-        res.redirect('/lgpd')
+        res.redirect('/lgpd');
+
     } catch (error) {
         console.log(error);
         res.render('error');
@@ -86,16 +68,8 @@ const salvarPdf = async (req, res)=>{
 
 const visualizarPdf = async(req, res)=>{
     try {
-        const consulta = await files.visualizaFile(req.params.id)
-        if(consulta[0].tipo != 'video/mp4'){
-            res.send(`<embed src="/lgpd/arquivo/${consulta[0].id}#toolbar=0&navpanes=0&scrollbar=0"" style="width: 100%; height: 700px"/>`);
-        } else{
-            res.writeHead(200, {'Content-Type': 'text/html'});
-            res.write('<video width="320" height="240" controls controlsList="nodownload style="width: 100%; height: 700px">');
-            res.write(`<source src="/lgpd/arquivo/${consulta[0].id}" type="video/mp4"/>`);
-            res.write('</video>');
-            res.end();
-        }
+        const consulta = await dbFiles.visualizaFile(req.params.id)
+        res.send(`<embed src="/lgpd/arquivo/${consulta[0].id}#toolbar=0&navpanes=0&scrollbar=0"" style="width: 100%; height: 700px"/>`);
     } catch (error) {
         console.log(error);
         res.render('error');
@@ -112,20 +86,23 @@ const enviarArquivo = async(req, res) =>{
             return result;
          };
 
-        const resultado = await files.selectFile(req.params.id)
-        const decrypted = decrypt(resultado[0].file);
+         const arquivo = await dbFiles.selectFile(req.params.id)
 
-        const nomeArq = Date.now() + '-' + resultado[0].originalname
+         fs.readFile('storage/' + arquivo[0].name, (err, data)=>{
+            const decrypted = decrypt(data);
+            fs.writeFile("temp/" + arquivo[0].name, decrypted, ()=>{
+                res.sendFile(path.join(__dirname, `../temp/${arquivo[0].name}`))
+            });
+        });
 
-        fs.writeFile("temp/" + nomeArq, decrypted, ()=>{
-            res.sendFile(path.join(__dirname, `../temp/${nomeArq}`))
-        })
-
-        setTimeout(()=>{
-            fs.unlink("temp/" + nomeArq, (err)=>{
-                if (err) console.log(err); 
+        setTimeout(() => {
+            fs.unlink("temp/" + arquivo[0].name, (err)=>{
+                if (err) {
+                    res.render("error")
+                    console.log(err);
+                }
             })
-        }, 60000)
+        }, 60000);
         
     } catch (error) {
         console.log(error);
@@ -143,18 +120,23 @@ const baixarArquivo = async(req, res) =>{
             return result;
          };
 
-        const resultado = await files.selectFile(req.params.id)
-        const decrypted = decrypt(resultado[0].file);
+        const arquivo = await dbFiles.selectFile(req.params.id)
 
-        const nomeArq = Date.now() + '-' + resultado[0].originalname
+        fs.readFile('storage/' + arquivo[0].name, (err, data)=>{
+           const decrypted = decrypt(data);
+           fs.writeFile("temp/" + arquivo[0].name, decrypted, ()=>{
+            res.download(path.join(__dirname, `../temp/${arquivo[0].name}`))
+           });
+       });
 
-        fs.writeFileSync("temp/" + nomeArq, decrypted)
-
-        res.download(path.join(__dirname, `../temp/${nomeArq}`))
-
-        setTimeout(()=>{
-            fs.unlinkSync("temp/" + nomeArq)
-        }, 60000)
+       setTimeout(() => {
+           fs.unlink("temp/" + arquivo[0].name, ()=>{
+               if (err) {
+                   res.render("error")
+                   console.log(err);
+               }
+           })
+       }, 30000);
         
     } catch (error) {
         console.log(error);
@@ -233,7 +215,7 @@ const saveRegisterNewGroupDoc = async(req, res) =>{
 module.exports = {
     home,
     novoDocumento,
-    salvarPdf,
+    salvarArquivo,
     visualizarPdf,
     enviarArquivo,
     newuser,
