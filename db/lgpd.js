@@ -36,9 +36,9 @@ let countFiles = async()=>{
     return values[0].contagem
 }
 
-let insertFiles = async(fieldname, originalname, encoding, mimetype, size, name)=>{
+let insertFiles = async(fieldname, originalname, encoding, mimetype, size, name, input_obs, input_nome, input_subtitulo, input_tipo)=>{
     const conn = await connect();
-    await conn.query('INSERT INTO docspro.files (fieldname, originalname, encoding, mimetype, size, name) VALUES (?, ?, ?, ?, ?, ?)', [fieldname, originalname, encoding, mimetype, size, name]);
+    await conn.query('INSERT INTO docspro.files (fieldname, originalname, encoding, mimetype, size, name, input_obs, input_nome, input_subtitulo, input_tipo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [fieldname, originalname, encoding, mimetype, size, name, input_obs, input_nome, input_subtitulo, input_tipo]);
     conn.end();
 }
 
@@ -81,6 +81,7 @@ let selectGrouDoc = async()=>{
     return values
 }
 
+
 module.exports = {
     showFiles,
     insertFiles,
@@ -90,5 +91,5 @@ module.exports = {
     selectUsers,
     insertNewGrouDoc,
     selectGrouDoc,
-    visualizaFile
+    visualizaFile,
 }

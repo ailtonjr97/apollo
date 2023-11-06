@@ -7,16 +7,9 @@ const db = require("./db/users");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 require('./auth.js')(passport);
-const home = require("./routes/home.js");
 const login = require("./routes/login.js");
 const users = require("./routes/users.js");
-const info = require("./routes/info.js");
-const comercial = require("./routes/comercial.js");
-const faturamento = require("./routes/faturamento.js");
-const logistica = require("./routes/logistica.js");
-const financeiro = require("./routes/financeiro.js");
 const lgpd = require("./routes/lgpd.js");
-const axios = require("axios")
 dotenv.config();
 const app = express();
 
@@ -85,14 +78,8 @@ app.get("/", async(req, res)=>{
 
 app.use("*", checkUser)
 app.use("/login", login);
-app.use("/home", authenticationMiddleware, home);
 app.use("/usuarios", authenticationMiddleware, users);
-app.use("/informacoes", authenticationMiddleware, info);
-app.use("/comercial", authenticationMiddleware, comercial);
-app.use("/faturamento", authenticationMiddleware, faturamento);
-app.use("/logistica", authenticationMiddleware, logistica);
-app.use("/financeiro", authenticationMiddleware, financeiro);
-app.use("/lgpd", authenticationMiddleware, lgpd);
+app.use("/", authenticationMiddleware, lgpd);
 
 app.listen(process.env.PORT, function () {
   console.log("Node.js funcionando na porta " + process.env.PORT);

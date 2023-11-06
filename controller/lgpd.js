@@ -1,4 +1,5 @@
 const dbFiles = require('../db/lgpd');
+const files = require('../db/files')
 const fs = require('fs');
 const crypto = require('crypto');
 const path = require('path');
@@ -48,7 +49,25 @@ const salvarArquivo = async (req, res)=>{
 
             const criptografado = encrypt(req.files[i].buffer);
     
-            await dbFiles.insertFiles(req.files[i].fieldname, req.files[i].originalname, req.files[i].encoding, req.files[i].mimetype, req.files[i].size, name);
+            if(req.files.length != 1){
+                await dbFiles.insertFiles(
+                );
+            }else{
+                await dbFiles.insertFiles(
+                    req.files[i].fieldname,
+                    req.files[i].originalname,
+                    req.files[i].encoding,
+                    req.files[i].mimetype,
+                    req.files[i].size,
+                    name,
+                    req.body.input_obs,
+                    req.body.input_nome,
+                    req.body.input_subtitulo,
+                    req.body.input_tipo
+                );
+            }
+
+            await files.insertFiles(criptografado, req.files[i].originalname, req.files[i].mimetype, req.files[i].size, req.files[i].fieldname, req.files[i].encoding)
     
             fs.writeFile("storage/" + name, criptografado, (err) => { 
                 if(err){
@@ -69,7 +88,9 @@ const salvarArquivo = async (req, res)=>{
 const visualizarPdf = async(req, res)=>{
     try {
         const consulta = await dbFiles.visualizaFile(req.params.id)
-        res.send(`<embed src="/lgpd/arquivo/${consulta[0].id}#toolbar=0&navpanes=0&scrollbar=0"" style="width: 100%; height: 700px"/>`);
+        res.render("lgpd/visualizador.ejs", {
+            consulta: consulta
+        });
     } catch (error) {
         console.log(error);
         res.render('error');
@@ -194,7 +215,7 @@ const newGroupDoc = async(req, res) =>{
 }
 const registerNewGroupDoc = async(req, res) =>{
     try {
-        res.render('lgpd/cadastroGruposDocumento')
+        res.render('lgpd/cadastroGruposDocumento');
     } catch (error) {
         console.log(error);
         res.render('error');

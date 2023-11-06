@@ -35,11 +35,11 @@ router.post("/autenticar", async(req, res)=>{
             };
             const token = createToken()
             res.cookie('jwt', token, {httpOnly: true});
-            res.redirect(req.session.returnTo || '/home');
+            res.redirect(req.session.returnTo || '/todos-os-documentos');
             delete req.session.returnTo;
 
         }else{
-            res.redirect(req.session.returnTo || '/home');
+            res.redirect(req.session.returnTo || '/todos-os-documentos');
             delete req.session.returnTo;
         }
 
