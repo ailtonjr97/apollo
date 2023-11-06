@@ -1,13 +1,9 @@
-<embed id="visu">
+<html>
+    <body>
+        <embed src="/lgpd/arquivo/<%=consulta[0].id%>#toolbar=0&navpanes=0&scrollbar=0" style="width: 100%; height: 700px"/>
+    </body>
+</html>
 
 <script type="text/javascript">
-    fetch(`/lgpd/renderizar-pdf/<%=id%>`)
-    .then(function (response) {
-        console.log(response)
-        document.getElementById('visu').src = `<embed style="resizable: both" src="data:${response[0].file};base64,${response[0].tipo}"/>`
-    })
-    .then(function (myBlob) {
-        // var objectURL = URL.createObjectURL(myBlob);
-        // myImage.src = objectURL;
-    });
+    document.querySelector("body").addEventListener('contextmenu', event => event.preventDefault());
 </script>

@@ -1,15 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const multer = require('multer');
-const fs = require('fs');
-const path = require('path')
 
 const {home, novoDocumento, salvarArquivo, visualizarPdf, enviarArquivo, newuser, registernewuser, saveRegisterNewUser, baixarArquivo, newGroupDoc, registerNewGroupDoc, saveRegisterNewGroupDoc} = require('../controller/lgpd.js');
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 
-router.get("/", home);
+router.get("/todos-os-documentos", home);
 router.get("/novo-documento", novoDocumento);
 router.post("/ler-pdf", upload.array('arquivos'), salvarArquivo);
 router.get("/visualizar/:id", visualizarPdf);
