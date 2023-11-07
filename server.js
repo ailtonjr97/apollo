@@ -68,10 +68,6 @@ app.use(
   })
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-
 app.get("/", async(req, res)=>{
   res.redirect("/login")
 });
