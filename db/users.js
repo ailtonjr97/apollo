@@ -45,7 +45,7 @@ let insertUser = async(user)=>{
 
 let getUserByUsername = async(username)=>{
     const conn = await connect();
-    const [rows] = await conn.query('SELECT * FROM users WHERE email = ?', username);
+    const [rows] = await conn.query('SELECT * FROM users WHERE email = ? and active = 1', username);
     conn.end();
     return rows[0];
 }
@@ -60,6 +60,13 @@ let getUserByIntranetID = async(id)=>{
 let getUserById = async(id)=>{
     const conn = await connect();
     const [rows] = await conn.query('SELECT * FROM users WHERE id = ?', id);
+    conn.end();
+    return rows[0];
+}
+
+let getUserByIdForJwt = async(id)=>{
+    const conn = await connect();
+    const [rows] = await conn.query('SELECT * FROM users WHERE id = ? and active = 1', id);
     conn.end();
     return rows[0];
 }
@@ -110,5 +117,6 @@ module.exports = {
     activateUser,
     editarUser,
     changePassword,
-    getUserByIntranetID
+    getUserByIntranetID,
+    getUserByIdForJwt
 };

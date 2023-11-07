@@ -77,7 +77,7 @@ const salvarArquivo = async (req, res)=>{
             });
         }
 
-        res.redirect('/lgpd');
+        res.redirect('/todos-os-documentos');
 
     } catch (error) {
         console.log(error);
