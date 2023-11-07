@@ -1,0 +1,27 @@
+<%- include('../partials/sidebar') %>
+<link rel="stylesheet" href="/css/button8.css" />
+
+<h1 class="mt-2 mb-3" style="text-align: center;">Cadastro de setores</h1>
+
+<form action="/novo-setor" method="post">
+    <div class="row">
+        <div class="col">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="nome" placeholder="Nome do setor:" name="nome">
+                <label for="nome">Nome do setor:</label>
+              </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button type="submit" class="button-8 mb-2" id="enviar">Enviar</button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    document.getElementById("enviar").addEventListener("click", ()=>{
+        document.getElementById("enviar").style.display = "none";
+    })
+</script>
+

@@ -47,9 +47,13 @@ const checkUser = (req, res, next)=>{
         res.locals.user = null;
         next();
       } else {
-        let user = await db.getUserById(decodedToken.id);
-        res.locals.user = user;
-        next();
+        let user = await db.getUserByIdForJwt(decodedToken.id);
+        if(user){
+          res.locals.user = user;
+          next();
+        }else{
+          res.send("Usuário inativado")
+        }
       }
     })
   } else{

@@ -23,13 +23,13 @@
       <div class="col">
         <div class="form-floating">
           <input type="text" class="form-control" id="procuraBtn0" onkeyup="procura(0, 'procuraBtn0')"/>
-          <label for="procuraBtn0">Filial:</label>
+          <label for="procuraBtn0">ID:</label>
         </div>
       </div>
       <div class="col">
         <div class="form-floating">
           <input type="text" class="form-control" id="procuraBtn1" onkeyup="procura(1, 'procuraBtn1')"/>
-          <label for="procuraBtn1">Código:</label>
+          <label for="procuraBtn1">Nome:</label>
         </div>
       </div>
       <div class="col">
@@ -41,13 +41,7 @@
       <div class="col">
         <div class="form-floating">
           <input type="text" class="form-control" id="procuraBtn3" onkeyup="procura(3, 'procuraBtn3')"/>
-          <label for="procuraBtn3">Condição:</label>
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-floating">
-          <input type="text" class="form-control" id="procuraBtn4" onkeyup="procura(4, 'procuraBtn4')"/>
-          <label for="procuraBtn4">Descrição:</label>
+          <label for="procuraBtn3">Tamanho:</label>
         </div>
       </div>
     </div>
@@ -91,10 +85,10 @@
                 <p><%=(file.size / 1000000).toFixed(2)%> MB</p>
             </td>
             <td>
-              <a href="/lgpd/visualizar/<%=file.id%>">
+              <a href="/visualizar/<%=file.id%>">
                 <button type="button" class="button-8" id="result"><i class="fa-solid fa-eye" style="color: #2a67cf;"></i></button>
               </a>
-              <a href="/lgpd/download/<%=file.id%>">
+              <a href="/download/<%=file.id%>">
                 <button type="button" class="button-8" id="result"><i class="fa-solid fa-file-arrow-down" style="color: #2a67cf;"></i></button>
               </a>
             </td>

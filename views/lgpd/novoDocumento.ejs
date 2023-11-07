@@ -73,11 +73,11 @@ form{
 <div class="row mt-2">
     <h1>Novo Documento</h1>
 </div>
-<form action="/lgpd/ler-pdf" method="post" style="resize:both;" enctype="multipart/form-data">
+<form action="/ler-pdf" method="post" style="resize:both;" enctype="multipart/form-data">
 <div class="row">
   <div class="col d-flex justify-content-start">
-    <button type="submit" class="button-8 mb-2" id="result" style="display: none; width: 10%;">Enviar</button>
-    <button onclick="recarrega()" type="button" class="button-8 mb-2" id="result" style="display: none; width: 10%; margin-left: 1%;">Refazer tudo</button>
+    <button type="submit" class="button-8 mb-2" id="enviar" style="display: none; width: 10%;">Enviar</button>
+    <button onclick="recarrega()" type="button" class="button-8 mb-2" id="refazer" style="display: none; width: 10%; margin-left: 1%;">Refazer tudo</button>
   </div>
 </div>
 
@@ -420,4 +420,11 @@ document.getElementsByClassName('button-8')[1].style.display = 'block'
 for(let i = 0; i < document.getElementsByClassName('setas').length; i++){
   document.getElementsByClassName('setas')[i].style.display = 'none'
 }
+</script>
+
+<script type="text/javascript">
+  document.getElementById("enviar").addEventListener("click", ()=>{
+      document.getElementById("enviar").style.display = "none";
+      document.getElementById("refazer").style.display = "none";
+  })
 </script>
