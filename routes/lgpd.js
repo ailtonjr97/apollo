@@ -4,6 +4,7 @@ const multer = require('multer');
 
 const {home, novoDocumento, salvarArquivo, visualizarPdf, enviarArquivo, newuser, registernewuser, saveRegisterNewUser, baixarArquivo, newGroupDoc, registerNewGroupDoc, saveRegisterNewGroupDoc} = require('../controller/lgpd.js');
 const {setores, setoresPost, novoSetor} = require('../controller/setores.js');
+const {docsQualidade, newDocsQualidade, renderizaArquivo, editarNovoDocumento, salvarNovoDocumento, mostraDocumento} = require('../controller/documentos.js');
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
@@ -30,5 +31,13 @@ router.post("/cadastro-grupo-documento", saveRegisterNewGroupDoc);
 router.get("/setores", setores);
 router.get("/novo-setor", novoSetor);
 router.post("/novo-setor", setoresPost);
+
+//documentos teste Maria
+router.get("/documentos-qualidade", docsQualidade);
+router.get("/novo-documento-qualidade", newDocsQualidade);
+router.get("/enviar-documento-qualidade", renderizaArquivo);
+router.get("/editar-novo-documento", editarNovoDocumento);
+router.post("/salvar-novo-documento", salvarNovoDocumento);
+router.get("/mostra-documento", mostraDocumento);
 
 module.exports = router;
