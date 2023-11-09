@@ -4,7 +4,6 @@ const multer = require('multer');
 
 const {home, novoDocumento, salvarArquivo, visualizarPdf, enviarArquivo, newuser, registernewuser, saveRegisterNewUser, baixarArquivo, newGroupDoc, registerNewGroupDoc, saveRegisterNewGroupDoc} = require('../controller/lgpd.js');
 const {setores, setoresPost, novoSetor} = require('../controller/setores.js');
-const {docsQualidade, newDocsQualidade, renderizaArquivo, editarNovoDocumento, salvarNovoDocumento, mostraDocumento} = require('../controller/documentos.js');
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
