@@ -51,14 +51,24 @@ const salvarArquivo = async (req, res)=>{
     
             if(req.files.length != 1){
                 await dbFiles.insertFiles(
-                );
-            }else{
-                await dbFiles.insertFiles(
                     req.files[i].fieldname,
                     req.files[i].originalname,
                     req.files[i].encoding,
                     req.files[i].mimetype,
                     req.files[i].size,
+                    name,
+                    req.body.input_obs[i],
+                    req.body.input_nome[i],
+                    req.body.input_subtitulo[i],
+                    req.body.input_tipo[i]
+                );
+            }else{
+                await dbFiles.insertFiles(
+                    req.files[0].fieldname,
+                    req.files[0].originalname,
+                    req.files[0].encoding,
+                    req.files[0].mimetype,
+                    req.files[0].size,
                     name,
                     req.body.input_obs,
                     req.body.input_nome,

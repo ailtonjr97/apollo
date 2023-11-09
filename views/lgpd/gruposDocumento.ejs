@@ -8,25 +8,18 @@
 <!-- Button trigger modal -->
  
   
+    <div class="row mt-3">
+      <div class="col">
+        <h3 style="text-align: center;">Cadastro de tipos de documento</h3>
+      </div>
+    </div>
 
-    <div class="row"> 
-                    <div class="card-header"> 
-                        <h4>Cadastro tipos de documento</h4><br>
-                    </div>
+    <div class="row mb-2">
+      <div class="col">
+        <button type="button" class="button-8">Novo Tipo</button>
+      </div>
     </div>
-    <div class="row">
-    <div class="col-sm-12">
-        <%- include('../lgpd/cadastroGruposDocumento') %>
-   </div>
-    <div class="col-lg-6">
-    </div>
-    <div class="col-lg-5">
-        <button type="button" class="button-8 mb-2" id="result" style="float: right;">
-        <span class="counter-value"></span>
-        resultados
-        </button>
-    </div>
-    </div>
+
     <div class="row mb-3">
       <div class="col">
         <div class="form-floating">
@@ -63,7 +56,10 @@
           <input type="text" class="form-control" id="procuraBtn3" onkeyup="procura(3, 'procuraBtn3')"/>
           <label for="procuraBtn3">Grupo Segurança:</label>
         </div>
-      </div>      
+      </div>
+    </div>
+
+    
     <div class="table-wrapper table-responsive table-striped mb-4">
       <table class="fl-table" id="myTable">
         <thead>
@@ -77,9 +73,8 @@
             <th>Imagem Exemplo</th>
           </tr>
         </thead>
-        <tbody>
 
-            
+        <tbody>
           <%grupos.forEach ((grupo)=>{%>
             <tr>
                 <td><%=grupo.id %></td>
@@ -92,6 +87,29 @@
                 <td></td>
             </tr>
           <%})%>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-wrapper table-responsive table-striped mb-4">
+      <table class="fl-table" id="myTable">
+        <thead>
+          <tr style="height: 25px">
+            <th>ID</th>
+            <th>Nome</th>
+          </tr>
+        </thead>
+        <tbody>
+            <%grupos.forEach ((grupo)=>{%>
+          <tr>
+            <td>
+                <%=grupo.id%>
+            </td>
+            <td>
+                <%=grupo.nome%>
+            </td>
+          </tr>
+            <%})%>
         </tbody>
       </table>
     </div>
