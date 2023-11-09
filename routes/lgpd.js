@@ -32,12 +32,4 @@ router.get("/setores", setores);
 router.get("/novo-setor", novoSetor);
 router.post("/novo-setor", setoresPost);
 
-//documentos teste Maria
-router.get("/documentos-qualidade", docsQualidade);
-router.get("/novo-documento-qualidade", newDocsQualidade);
-router.get("/enviar-documento-qualidade", renderizaArquivo);
-router.get("/editar-novo-documento", editarNovoDocumento);
-router.post("/salvar-novo-documento", salvarNovoDocumento);
-router.get("/mostra-documento", mostraDocumento);
-
 module.exports = router;
