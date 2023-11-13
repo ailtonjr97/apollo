@@ -14,7 +14,7 @@
     </div>
     <div class="row">
     <div class="col-sm-1">
-        <a href="/lgpd/cadastro-novo-usuario">
+        <a href="/cadastro-novo-usuario">
             <button type="button" class="button-8" id="result">Nova Pessoa</button>
           </a>
     </div>
@@ -71,7 +71,14 @@
                 <td><%=user.nome %></td>
                 <td><%=user.status %></td>
                 <td><%=user.setor %></td>
-                <td></td>
+                <td>
+                    <a href="/visualizar/1">
+                       <button title="Ver documentos" type="button" class="button-8" id="result"><i class="fa-solid fa-eye" style="color: #2a67cf;"></i></button>
+                    </a>   
+                    <a href="/visualizar/1">
+                       <button title="Editar Usuário" type="button" class="button-8" id="result"><i class="fa-solid fa-pencil" style="color: #2a67cf;"></i></button>
+                    </a>
+                </td>
             </tr>
           <%})%>
         </tbody>
