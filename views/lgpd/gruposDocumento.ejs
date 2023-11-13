@@ -14,11 +14,7 @@
       </div>
     </div>
 
-    <div class="row mb-2">
-      <div class="col">
-        <button type="button" class="button-8">Novo Tipo</button>
-      </div>
-    </div>
+          <%- include('../lgpd/cadastroGruposDocumento') %>
 
     <div class="row mb-3">
       <div class="col">
@@ -71,6 +67,7 @@
             <th>Setor</th>
             <th>Grupo de Segurança</th>
             <th>Imagem Exemplo</th>
+            <th>Ações</th>            
           </tr>
         </thead>
 
@@ -84,35 +81,18 @@
                 <td><%=grupo.setor %></td>
                 <td><%=grupo.grupo_seguranca %></td>
                 <td><%=grupo.img_exemplo %></td>                                                
-                <td></td>
+                <td>
+                  <a href="/visualizar/1">
+                     <button type="button" class="button-8" id="result"><i class="fa-solid fa-pencil" style="color: #2a67cf;"></i></button>
+                  </a>
+                </td>
             </tr>
           <%})%>
         </tbody>
       </table>
     </div>
 
-    <div class="table-wrapper table-responsive table-striped mb-4">
-      <table class="fl-table" id="myTable">
-        <thead>
-          <tr style="height: 25px">
-            <th>ID</th>
-            <th>Nome</th>
-          </tr>
-        </thead>
-        <tbody>
-            <%grupos.forEach ((grupo)=>{%>
-          <tr>
-            <td>
-                <%=grupo.id%>
-            </td>
-            <td>
-                <%=grupo.nome%>
-            </td>
-          </tr>
-            <%})%>
-        </tbody>
-      </table>
-    </div>
+
 
 
 <script type="text/javascript" src="/js/carregador.js"></script>

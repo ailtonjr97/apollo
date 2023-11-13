@@ -67,7 +67,12 @@ let selectUsers = async(qtd)=>{
     conn.end();
     return values
 }
-
+let selectUser = async(id)=>{
+    const conn = await connect();
+    const [values] = await conn.query('select * from lgpd_pessoas where id = '+ id);
+    conn.end();
+    return values
+}
 let insertNewGrouDoc = async(nome,descricao,validade,setor,grupo_seguranca,img_exemplo)=>{
     const conn = await connect();
     await conn.query('INSERT INTO docspro.files_group (nome,descricao,validade,setor,grupo_seguranca,img_exemplo) VALUES (?, ?, ?, ?, ?, ?)', [nome,descricao,validade,setor,grupo_seguranca,img_exemplo]);
@@ -92,4 +97,5 @@ module.exports = {
     insertNewGrouDoc,
     selectGrouDoc,
     visualizaFile,
+    selectUser,
 }

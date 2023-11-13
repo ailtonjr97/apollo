@@ -240,7 +240,15 @@ const saveRegisterNewGroupDoc = async(req, res) =>{
         res.render('error');
     }
 }
-
+const EditUser = async(req, res) =>{
+    try {
+        var user = await dbFiles.selectUser(3863);
+        res.render('lgpd/editarUsuario',{user:user[0]});
+    } catch (error) {
+        console.log(error);
+        res.render('error');
+    }
+}
 
 
 module.exports = {
@@ -255,5 +263,6 @@ module.exports = {
     baixarArquivo,
     newGroupDoc,
     registerNewGroupDoc,
-    saveRegisterNewGroupDoc
+    saveRegisterNewGroupDoc,
+    EditUser
 };
